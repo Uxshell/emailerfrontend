@@ -1,0 +1,190 @@
+<h1>Correos Masivos</h1>
+<mat-divider></mat-divider>
+
+
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+    <mat-card fxFlex="50%">
+        <h3>Campaña</h3>
+        <mat-form-field>
+            <input matInput placeholder="Campaña" required #campaignLabel="matInput" name="campaignLabel" type="text" [formControl]="labelInput">
+        </mat-form-field>
+        <mat-divider></mat-divider>
+    </mat-card>
+    <mat-card fxFlex="25%">
+        <div>
+            <h3>Subject</h3>
+            <mat-form-field>
+                <input matInput placeholder="Subject" required #subjectLabel="matInput" name="subjectLabel" type="text" [formControl]="subjectInput">
+
+            </mat-form-field>
+        </div>
+        
+        <div>
+            <button mat-raised-button (click)="addTag()" color="accent">
+                <mat-icon>add_box</mat-icon>
+                Agregar Tag Nombre
+            </button>
+        </div>
+    </mat-card>
+    <mat-card fxFlex="25%">
+        <div>
+            <h3>Presubject</h3>
+            <mat-form-field>
+                <input matInput placeholder="Presubject" required #subjectLabel="matInput" name="PresubjectLabel" type="text" [formControl]="subjectInput">
+            </mat-form-field>
+        </div>
+        
+    </mat-card>
+</div>
+
+<mat-divider></mat-divider>
+
+
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+    <mat-card fxFlex="100%">
+        <div class="profile-card">
+            <h3>Selecciona la plantilla html</h3>
+            <mat-card-actions>
+                <input class="custom-file-upload" required type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="htmlInputChange($event)" accept=".html" />
+            </mat-card-actions>
+        </div>
+    </mat-card>
+
+</div>
+
+
+
+<mat-nav-list>
+
+
+
+    <mat-divider></mat-divider>
+
+
+
+
+
+    <mat-divider></mat-divider>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="0px">
+        <mat-card fxFlex="100%">
+            <div class="profile-card" *ngIf="headers?.length > 0">
+                <h3>Selecciona filtros</h3>
+                <mat-form-field appearance="fill">
+                    <mat-label>Selecciona Un Criterio</mat-label>
+                    <mat-select [formControl]="header">
+                        <mat-option *ngFor="let header of headers" [value]="header">{{header}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+                <mat-card-actions color="accent" class="button-space">
+                    <button mat-raised-button (click)="addFilter()" color="accent">
+                        <mat-icon>add_box</mat-icon>
+                        Agregar
+                    </button>
+                </mat-card-actions>
+            </div>
+        </mat-card>
+
+    </div>
+
+
+    <div class="profile-card" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px" *ngFor="let header of filtersHeaders; let i = index">
+        <mat-form-field class="button-space">
+            <input matInput disabled placeholder={{header.value}} name="name-{{header.value}}" [value]="header.value">
+        </mat-form-field>
+
+        <mat-form-field class="button-space" *ngIf="header.type == 'text'">
+            <mat-label>Selecciona Un Criterio</mat-label>
+            <mat-select required [(value)]="header.option">
+                <mat-option value="contiene">contiene</mat-option>
+                <mat-option value="igual">igual a</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- DATES -->
+        <mat-form-field class="button-space" *ngIf="header.type == 'date'">
+            <mat-label>De</mat-label>
+            <mat-form-field color="accent" appearance="fill">
+                <input matInput [matDatepicker]="picker1" [max]="maxDate" (dateChange)="updateDOB($event)">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </mat-form-field>
+
+        <mat-form-field class="button-space" *ngIf="header.type == 'date' && this.initDate != null">
+            <mat-label>A: </mat-label>
+            <mat-form-field color="accent" appearance="fill">
+                <input matInput [matDatepicker]="picker2" [min]="initDate" [max]="maxDate" (dateChange)="formDate($event)">
+                <mat-datepicker-toggle matSuffix [for]=" picker2 "></mat-datepicker-toggle>
+                <mat-datepicker #picker2 color="primary"></mat-datepicker>
+            </mat-form-field>
+
+        </mat-form-field>
+
+
+
+
+        <mat-form-field class="button-space" *ngIf="header.type=='number' ">
+            <mat-label>Selecciona Un Criterio</mat-label>
+            <mat-select required [(value)]="header.option ">
+                <mat-option value="menor ">menor a</mat-option>
+                <mat-option value="mayor ">mayor a</mat-option>
+                <mat-option value="igual ">igual a</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="button-space" *ngIf="header?.type=='checkbox' && header?.value !='genero' ">
+            <mat-select required [(value)]="header.option ">
+                <mat-option value="true ">Verdadero</mat-option>
+                <mat-option value="false ">Falso</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="button-space" *ngIf="header?.type=='checkbox' && header?.value=='genero' ">
+            <mat-select required [(value)]="header.option ">
+                <mat-option value="true ">Masculino</mat-option>
+                <mat-option value="false ">Femenino</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="header?.type !='checkbox' && header?.type !='date' ">
+            <!--<mat-form-field *ngIf="header?.type=='text' ">-->
+            <input matInput required placeholder=" Value " type="text " [formControl]="header.controlInput " name="value-{{header.value}} ">
+        </mat-form-field>
+
+        <button mat-icon-button class="parent" (click)="removeInput(i) ">
+        <mat-icon>indeterminate_check_box</mat-icon>
+      </button>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-progress-bar mode="indeterminate" *ngIf="isProgress"></mat-progress-bar>
+
+    <mat-divider></mat-divider>
+
+    <div class="profile-card">
+        <div *ngIf="isCompleted ">
+            <mat-progress-bar mode="indeterminate "></mat-progress-bar>
+        </div>
+        <div *ngIf="isFinish && htmlLoaded ">
+            <div>
+                <h3>Carga Correcta</h3>
+                <img img src="assets/img/finish.png " style="width:30px;height:30px; ">
+            </div>
+        </div>
+        <div *ngIf="isError ">
+            <div>
+                <h3>Ha Ocurrido Un error</h3>
+                <img img src="assets/img/error.png " style="width:80px;height:50px; ">
+            </div>
+        </div>
+
+        <div class="bottom-space">
+            <mat-card-actions color="accent" *ngIf="isFinish && htmlLoaded && !isError ">
+                <button mat-raised-button (click)="processData() " color="accent">Enviar</button>
+            </mat-card-actions>
+        </div>
+    </div>
+</mat-nav-list>

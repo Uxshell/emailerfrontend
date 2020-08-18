@@ -1,0 +1,73 @@
+<mat-nav-list>
+    <div class="profile-card">
+        <div class="header">
+            <!--<h2>Username</h2>-->
+            <h3>{{user.email}}</h3>
+        </div>
+        <img src="/assets/img/social_noise.png" style="width:100px;height:100px;" alt="social noise">
+    </div>
+
+    <mat-divider></mat-divider>
+    <div *ngIf="user?.rol != 'viewer'">
+        <h2 matSubheader>Correos</h2>
+
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/">
+            <mat-icon>next_week</mat-icon>
+            Enviar Correos</a>
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/custom">
+            <mat-icon>email</mat-icon>
+            Correos Personalizados</a>
+    </div>
+    <mat-divider></mat-divider>
+    <div *ngIf="user?.rol != 'viewer'">
+        <h2 matSubheader>Automatización</h2>
+
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/automation">
+            <mat-icon>timer</mat-icon>
+            Correos Programados</a>
+      
+    </div>
+    <mat-divider></mat-divider>
+
+    <div *ngIf="user?.rol != 'sender'">
+
+        <h2 matSubheader>Estadisticas de Correos</h2>
+
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/statistics">
+            <mat-icon>assessment</mat-icon>
+            Correos Masivos
+        </a>
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/statisticsCustom">
+            <mat-icon>assessment</mat-icon>
+            Correos Personalizados
+        </a>
+    </div>
+    <mat-divider></mat-divider>
+    <div *ngIf="user?.rol == 'admin'">
+
+        <h2 matSubheader>Usuarios</h2>
+
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/register">
+            <mat-icon>add_circle</mat-icon>
+            Registrar Usuario
+        </a>
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/changePassword">
+            <mat-icon>vpn_key</mat-icon>
+            Cambiar contraseña
+        </a>
+
+
+        <h2 matSubheader>Manager</h2>
+
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/list"> 
+            <mat-icon>list</mat-icon>
+            Mis Listas
+        </a>
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/black"> 
+            <mat-icon>unsubscribe</mat-icon>
+            Listas Negras
+        </a>
+    </div>
+
+
+</mat-nav-list>

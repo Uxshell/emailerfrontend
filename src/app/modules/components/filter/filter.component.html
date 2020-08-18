@@ -1,0 +1,31 @@
+<mat-form-field fxFlex="30" class="button-space">
+    <input matInput disabled placeholder={{filterHeader}} name="name-{{filterHeader}}" [value]="filterHeader">
+</mat-form-field>
+
+<mat-form-field fxFlex="20" class="button-space" *ngIf="type == 'text'">
+    <mat-label>Selecciona Un Criterio</mat-label>
+    <mat-select [formControl]="optiontext">
+        <mat-option *ngFor="let option of options" required [value]="options">{{option}}</mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field fxFlex="20" class="button-space" *ngIf="type == 'number'">
+    <mat-label>Selecciona Un Criterio</mat-label>
+    <mat-select [formControl]="optionSimbols">
+        <mat-option *ngFor="let simbol of options" required [value]="options">{{simbol}}</mat-option>
+    </mat-select>
+
+</mat-form-field>
+
+<mat-form-field fxFlex="20" class="button-space" *ngIf="type == 'checkbox'">
+    <mat-option [value]=true>True</mat-option>
+    <mat-option [value]=false>False</mat-option>
+</mat-form-field>
+
+<mat-form-field fxFlex="20" class="button-space">
+    <input matInput placeholder="Value" type="text" name="value-{{filterHeader}}">
+</mat-form-field>
+
+<button mat-icon-button class="button-space" (click)='removeInput(index)'>
+    <mat-icon>indeterminate_check_box</mat-icon>
+  </button>

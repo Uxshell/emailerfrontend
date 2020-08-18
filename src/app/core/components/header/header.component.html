@@ -1,0 +1,46 @@
+<mat-toolbar color="accent">
+    <mat-toolbar-row>
+        <button mat-icon-button (click)="toggleSideBar()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <span> Social Noise Emailer</span>
+        <span class="fill-space"></span>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <ul fxLayout="row" fxLayoutGap="20px"></ul>
+        </div>
+        <!--
+        <div>
+            <button mat-raised-button color="accent" (click)="goToRegister()">
+            <mat-icon>receipt icon</mat-icon>
+            Registrar
+        </button>
+        </div>
+    -->
+        <div>
+            <button mat-raised-button color="accent" (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+        </div>
+        <!--
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <ul fxLayout="row" fxLayoutGap="20px">
+                <li>
+                    <button mat-button [matMenuTriggerFor]="menu">
+                        <mat-icon>person_outline</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item onClick="singout">
+                            <mat-icon>exit_to_app</mat-icon>
+                            Salir
+                        </button>
+                    </mat-menu>
+                
+
+                </li>
+            </ul>
+        </div>
+        -->
+    </mat-toolbar-row>
+</mat-toolbar>

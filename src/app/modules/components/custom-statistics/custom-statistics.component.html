@@ -1,0 +1,62 @@
+<div style="justify-content: center; text-align: center;">
+    <h1>Correos Personalizados</h1>
+</div>
+
+<h2>Selecciona un rango de fechas</h2>
+<div fxLayout="row" fxLayoutGap="12px" [style.margin-top]="'12px'">
+    <mat-card>
+        <h3>De</h3>
+        <mat-form-field color="accent" appearance="fill">
+            <input matInput [matDatepicker]="picker1" [max]="maxDate" (dateChange)="updateDOB($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+    </mat-card>
+    <mat-card *ngIf="this.initDate != null">
+        <div>
+            <h3>A</h3>
+            <mat-form-field color="accent" appearance="fill">
+
+                <input matInput [matDatepicker]="picker2" [min]="minDate" [max]="maxDate" (dateChange)="formDate($event)">
+                <mat-datepicker-toggle matSuffix [for]=" picker2 "></mat-datepicker-toggle>
+                <mat-datepicker #picker2 color="primary"></mat-datepicker>
+            </mat-form-field>
+
+            <button (click)="doSearch()" *ngIf="this.finalDate !=null && this.initDate !=null" mat-raised-button color="accent" style="margin-left:20px;margin-bottom:20px;">
+                Buscar
+            </button>
+        </div>
+    </mat-card>
+</div>
+
+<mat-divider>
+</mat-divider>
+<mat-progress-bar mode="indeterminate" *ngIf="isProgress"></mat-progress-bar>
+
+<div *ngIf="!isEmptyObject(responseData)">
+    <div>
+        <h4>Estadisticas</h4>
+        <span class="title">Total de emails Enviados: </span>
+        <span class="total">{{responseData["Send"]}} </span>
+    </div>
+    <br>
+    <mat-divider></mat-divider>
+
+    <br><br>
+
+    <div fxLayout="row " fxLayoutAlign="space-between center " fxLayoutGap="50px ">
+        <mat-card fxFlex="50% ">
+
+            <app-card-graph label="Entregados " total={{delivery}} percentage={{percentDelivery|number}}></app-card-graph>
+        </mat-card>
+        <mat-card fxFlex="50% ">
+            <app-card-graph label="No Entregados " total={{undelivery}} percentage={{percentNODelivery|number}}></app-card-graph>
+        </mat-card>
+        <mat-card fxFlex="50% ">
+            <app-card-graph label="Bounces " total={{bounce}} percentage={{percentBounce|number}}></app-card-graph>
+        </mat-card>
+    </div>
+
+    <mat-divider></mat-divider>
+
+</div>

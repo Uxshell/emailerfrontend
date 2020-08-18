@@ -1,0 +1,39 @@
+<mat-nav-list>
+    <div class="profile-card">
+        <div class="header">
+            <h2>Enviar Correos</h2>
+            <h4>Se utilizará la funcion lambda en aws</h4>
+        </div>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="sendEmails()">Enviar</button>
+        </mat-card-actions>
+    </div>
+
+    <mat-divider>
+
+    </mat-divider>
+    <!--
+    <mat-progress-bar mode="indeterminate" *ngIf="isCompleted"></mat-progress-bar>
+    -->
+    <div *ngIf="isCompleted">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div *ngIf="isFinish">
+        <div class="profile-card">
+            <h2>Finzalizado</h2>
+            <img img src="assets/img/finish.png" style="width:50px;height:50px;">
+            <h3>La información se ha procesado y se enviarán:
+                <h1>{{totalEmails}}</h1> correos</h3>
+
+        </div>
+    </div>
+    <div *ngIf="isError">
+        <div class="profile-card">
+            <h2>Ha Ocurrido Un error</h2>
+            <img img src="assets/img/error.png" style="width:80px;height:50px;">
+
+        </div>
+    </div>
+
+
+</mat-nav-list>

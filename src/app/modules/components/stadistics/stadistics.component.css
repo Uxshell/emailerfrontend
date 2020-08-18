@@ -1,0 +1,40 @@
+.parent {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.fill-space {
+    flex: 1 1 auto;
+}
+
+.stats-cards,
+.mat-card {
+    overflow: hidden;
+}
+
+.main-div {
+    justify-content: center;
+    align-items: center;
+}
+
+.example-card {
+    max-width: 300px;
+    margin-bottom: 50px;
+    float: left;
+}
+
+.total {
+    font-size: 3em;
+    color: green;
+}
+
+.title {
+    font-size: 2em;
+    color: black;
+}
+
+.button-space {
+    text-align: center;
+    padding: 0 0 0 35px;
+}

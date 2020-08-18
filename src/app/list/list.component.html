@@ -1,0 +1,39 @@
+  <!--<mat-selection-list >
+    <mat-list-option *ngFor="let lista of listas">
+      {{lista.nombre}}
+    </mat-list-option>
+  </mat-selection-list>
+
+    <div fxLayout="row " fxLayoutAlign="space-between center " fxLayoutGap="18px ">
+    <mat-card  style = "background:linear-gradient(135deg, #e9eced 0%,#fffcfc 100%);" *ngFor="let lista of listas">
+        <h3> {{lista.nombre}}</h3>
+        
+        <button mat-raised-button color="accent">Ver detalles</button>
+ 
+    </mat-card>
+</div>  -->
+<mat-card>
+  <h1>Listas </h1>
+    <button mat-raised-button color="primary" routerLink="/manager" >Nueva lista</button>
+</mat-card>
+
+    
+  
+<mat-grid-list cols="3" rowHeight="2:1">
+    <mat-grid-tile  *ngFor="let lista of listas">
+        <div fxLayout="row " fxLayoutAlign="space-between center " fxLayoutGap="50px ">
+        <mat-card  style = "background-image: linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%); width: 250px;" >
+            <h3> {{lista.nombre}}</h3>
+            <h4>Fecha de creación: {{lista.fechaCreacion}}</h4>
+            <div fxLayout="row " fxLayoutAlign="space-between center " fxLayoutGap="50px ">
+              <button mat-raised-button color="primary" >Clientes: {{lista.totalClientes}}</button>
+              <!--<mat-chip color="primary" >   {{lista.totalClientes}} </mat-chip>-->
+            <button mat-raised-button color="warn" (click)=borrarLista(lista)>Eliminar</button>
+            <!--<button mat-raised-button color="primary" (click)="getClientsbyLista(lista)" >get Clients by Lista</button>-->
+            </div>
+        </mat-card>
+        </div>
+    </mat-grid-tile>
+    
+  </mat-grid-list>
+  

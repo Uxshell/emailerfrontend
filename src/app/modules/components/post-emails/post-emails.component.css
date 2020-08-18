@@ -1,0 +1,87 @@
+.mat-icon {
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+.profile-card {
+    text-align: center;
+    padding: 0 20px 20px 20px;
+}
+
+.button-space {
+    text-align: center;
+    padding: 0 0 0 35px;
+}
+
+.bottom-space {
+    text-align: center;
+    padding: 0 0 0 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-div {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-btn {
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+​#button {
+    position: relative;
+    left: -1px;
+    background-color: #446655;
+}
+
+.custom-file-upload {
+    color: rgb(19, 17, 18);
+    display: inline-block;
+    padding: 6px 6px;
+    background-color: rgb(233, 227, 227);
+    cursor: pointer;
+}
+
+h2 {
+    color: #069;
+}
+
+h3 {
+    color: #069;
+}
+
+h4 {
+    color: #069;
+}
+
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.wrapper {
+    display: inline-block
+}

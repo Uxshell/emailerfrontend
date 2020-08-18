@@ -1,0 +1,28 @@
+mat-card {
+    max-width: 400px;
+    margin: 2em auto;
+    text-align: center;
+}
+
+mat-form-field {
+    display: block;
+}
+
+
+/*
+.mat-toolbar {
+    background: #007bff;
+    color: #fff;
+}
+//*/
+
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.fill-space {
+    flex: 1 1 auto;
+}
