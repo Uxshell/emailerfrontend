@@ -7,7 +7,7 @@ import {Cliente} from '../_models/clienteModel';
 
 
 export class ListaService {
-    endpoint = 'https://outrageousmacaque-5c56.azurewebsites.net/api';
+    endpoint = 'http://ec2-54-90-17-93.compute-1.amazonaws.com:3000/api';
     
     constructor( private http: HttpClient
     ){}

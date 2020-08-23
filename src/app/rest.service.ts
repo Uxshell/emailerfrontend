@@ -7,7 +7,7 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RestService {
-  endpoint = 'https://outrageousmacaque-5c56.azurewebsites.net/';
+  endpoint = 'http://ec2-54-90-17-93.compute-1.amazonaws.com:3000/';
 
 
   constructor(private http: HttpClient) {

@@ -5,7 +5,7 @@ import { Lista } from '../_models/listaModel';
 import {Cliente} from '../_models/clienteModel';
 @Injectable({ providedIn: 'root' })
 export class ClienteService {
-    endpoint = 'https://outrageousmacaque-5c56.azurewebsites.net/api';
+    endpoint = 'http://ec2-54-90-17-93.compute-1.amazonaws.com:3000/api';
     
     constructor( private http: HttpClient
     ){}
