@@ -64,9 +64,9 @@ export class LoginComponent implements OnInit {
     this.rest.login(this.request).subscribe((data) => {
       //console.log("data..." + JSON.stringify(data));
       if (data.response.success) {
-        this.token = data.response.token;
+   //     this.token = data.response.token;
         this.user = data.response.user;
-        this.user.token = this.token;
+     //   this.user.token = this.token;
         this.user.rol = data.response.user.rol;
         localStorage.setItem('currentUser', JSON.stringify(this.user));
         this.router.navigate(["/"]);
