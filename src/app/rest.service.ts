@@ -71,6 +71,10 @@ export class RestService {
     return this.http.get<any>(this.endpoint + 'lists/getListas')
     .pipe(map(this.extractData));
   }
+  getBlacks(): Observable<any> {
+    return this.http.get<any>(this.endpoint + 'black/getBlacks')
+    .pipe(map(this.extractData));
+  }
 
 
   setFilters(request): Observable<any> {

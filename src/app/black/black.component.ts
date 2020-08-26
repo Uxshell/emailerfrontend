@@ -48,8 +48,15 @@ export class BlackComponent implements OnInit {
   public listas: Black[] =[];
 
   constructor(private BS:BlackService, public fb: FormBuilder, private datePipe: DatePipe, public rest: RestService, private router: Router, private ngZone: NgZone) {
-    
-  this.mainForm();}
+    this.mainForm();
+    this.rest.getBlacks().subscribe((data)=>{
+      this.listas = data.data;
+      //var milistas:Lista[]=[]= data.data;
+      //var listas = data.data;
+      console.log("data list: " + JSON.stringify(this.listas));
+          
+    });
+  }
   
   mainForm() {
     this.blackForm = this.fb.group({
@@ -63,10 +70,11 @@ export class BlackComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  this.cargarLista();
+  //this.cargarLista();
   }
   
   cargarLista(){
+
     
     this.BS.cargarBlacks().subscribe(listas=>{
       this.listas= listas;
