@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-
+import{RestService} from '../rest.service';
 import { ListaService } from '../_services/listaService';
 import{ClienteService} from '../_services/clienteService';
 import {Lista} from '../_models/listaModel';
@@ -18,8 +18,14 @@ public listas: Lista[] =[];
 public clientes: Cliente[]= [];
 public cargando: boolean = true;
 
-  constructor(private listService: ListaService, private cs: ClienteService,public dialog: MatDialog) { 
-
+  constructor(private listService: ListaService, private cs: ClienteService,public dialog: MatDialog, public res:RestService) { 
+    this.res.getLists().subscribe((data)=>{
+      this.listas = data.data;
+      //var milistas:Lista[]=[]= data.data;
+      //var listas = data.data;
+      console.log("data list: " + JSON.stringify(this.listas));
+          
+    });
   }
   
   name: string;
@@ -32,16 +38,20 @@ public cargando: boolean = true;
    this.cargarLista();
     
   }
-
+  
   cargarLista(){
-    this.cargando=true;
-    this.listService.cargarListas().subscribe(listas=>{
+    //this.cargando=true;
+
+    /*this.listService.cargarListas().subscribe((listas)=>{
+
       
-      this.cargando= false;
+      //this.cargando= false;
       this.listas= listas;
       console.log(listas);
-    });
+    });*/
   }
+
+
   ClientsbyLista(lista:Lista){
     this.cs.getClientsbyLista(lista._id).subscribe(clientes=>{
      this.clientes =clientes;

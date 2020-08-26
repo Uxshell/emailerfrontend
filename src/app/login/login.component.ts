@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
     this.user = this.currentUserSubject.value;
 
     this.rest.getUsers().subscribe((data)=>{
+      
       var users = data.data;
       console.log("data users: " + JSON.stringify(users));
       if (Object.keys(users).length === 0) {

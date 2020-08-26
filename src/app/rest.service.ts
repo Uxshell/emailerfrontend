@@ -67,8 +67,8 @@ export class RestService {
     return this.http.post<any>(this.endpoint + 'clients/getClients', request)
     .pipe(map(this.extractData));
   }
-  getLists(request): Observable<any> {
-    return this.http.post<any>(this.endpoint + 'lists/getLists', request)
+  getLists(): Observable<any> {
+    return this.http.get<any>(this.endpoint + 'lists/getListas')
     .pipe(map(this.extractData));
   }
 

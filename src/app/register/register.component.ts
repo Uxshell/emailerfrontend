@@ -60,6 +60,7 @@ export class RegisterComponent implements OnInit {
     }
 
     async register() {
+        console.log(this.email+''+this.password);
         const dialogConfig = new MatDialogConfig();
         if (this.email && this.password && this.selected) {
 

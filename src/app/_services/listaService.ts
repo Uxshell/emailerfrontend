@@ -7,14 +7,14 @@ import {Cliente} from '../_models/clienteModel';
 
 
 export class ListaService {
-    endpoint = 'http://ec2-54-90-17-93.compute-1.amazonaws.com:3000/api';
+    endpoint = 'http://ec2-54-90-17-93.compute-1.amazonaws.com:3000';
     
     constructor( private http: HttpClient
     ){}
     
     cargarListas() {
 
-        const url = `${ this.endpoint }/listas`;
+        const url = `${ this.endpoint }/lists/getListas`;
         return this.http.get( url )
                   .pipe(
                     map( (resp:{ok:boolean, listas:Lista[]}) =>resp.listas)
