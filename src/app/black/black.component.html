@@ -15,11 +15,11 @@
           <mat-form-field appearance="fill" >
             <input matInput placeholder="Escribe el nombre de tu lista"  formControlName="nombre" required>
           </mat-form-field> 
-      
+      <!--
           <mat-form-field appearance="fill" >
             <mat-label>Descripción</mat-label>
             <input matInput placeholder="Breve descripción de la lista" formControlName="descripcion">
-          </mat-form-field>
+          </mat-form-field>-->
 
           <mat-card-content fxLayoutAlign="center">
             <input class="custom-file-upload" type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
@@ -47,6 +47,7 @@
     
                 <div>
                     <mat-card-actions color="accent" *ngIf="isFinish && !isError">
+                      
                         <button mat-raised-button (click)="upload()" color="accent">Subir</button>
                     </mat-card-actions>
                 </div>
@@ -76,11 +77,11 @@
   
 <mat-card> <h2>Mis listas negras</h2>
   <mat-grid-list cols="3" rowHeight="2:1">
-      <mat-grid-tile  *ngFor="let lista of listas">
+      <mat-grid-tile  *ngFor="let black of blacks">
           <div fxLayout="row " fxLayoutAlign="space-between center " fxLayoutGap="50px ">
           <mat-card  style = "background-image: linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%);" >
-              <h3> {{lista.nombre}}</h3>
-              <h4>Fecha de creación: {{lista.fechaCreacion}}</h4>
+              <h3> {{black.nombre}}</h3>
+              <h4>Fecha de creación: {{black.fechaCreacion}}</h4>
               <div fxLayout="row " fxLayoutAlign="space-between center " fxLayoutGap="50px ">
             
                 <!--<mat-chip color="primary" >   {{lista.totalClientes}} </mat-chip>-->

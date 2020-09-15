@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 
 export class BlackService {
-    endpoint = 'http://ec2-54-90-17-93.compute-1.amazonaws.com:3000/api';
+    endpoint = 'ec2-52-205-245-151.compute-1.amazonaws.com:3000';
     
     constructor( private http: HttpClient
     ){}
@@ -30,7 +30,7 @@ export class BlackService {
 
       eliminarLista( _id: string ) {
 
-        const url = `${ this.endpoint }/blacks/${_id}`;
+        const url = `${ this.endpoint }api/blacks/${_id}`;
         return this.http.delete( url );
       }
      

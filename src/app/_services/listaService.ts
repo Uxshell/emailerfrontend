@@ -7,13 +7,14 @@ import {Cliente} from '../_models/clienteModel';
 
 
 export class ListaService {
-    endpoint = 'http://ec2-54-90-17-93.compute-1.amazonaws.com:3000';
+    endpoint = 'ec2-52-205-245-151.compute-1.amazonaws.com:3000';
     
     constructor( private http: HttpClient
     ){}
     
     cargarListas() {
 
+      
         const url = `${ this.endpoint }/lists/getListas`;
         return this.http.get( url )
                   .pipe(
@@ -29,7 +30,7 @@ export class ListaService {
 
       eliminarLista( _id: string ) {
 
-        const url = `${ this.endpoint }/listas/${_id}`;
+        const url = `${ this.endpoint }/api/listas/borrarLista/${_id}`;
         return this.http.delete( url );
       }
      

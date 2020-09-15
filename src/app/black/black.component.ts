@@ -45,15 +45,13 @@ export class BlackComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
 
-  public listas: Black[] =[];
+  public blacks: Black[] =[];
 
   constructor(private BS:BlackService, public fb: FormBuilder, private datePipe: DatePipe, public rest: RestService, private router: Router, private ngZone: NgZone) {
     this.mainForm();
     this.rest.getBlacks().subscribe((data)=>{
-      this.listas = data.data;
-      //var milistas:Lista[]=[]= data.data;
-      //var listas = data.data;
-      console.log("data list: " + JSON.stringify(this.listas));
+      this.blacks = data.listas;//importante data.[nombre definido en el backend]
+      console.log("data blacks: " + JSON.stringify(this.blacks));
           
     });
   }
@@ -76,10 +74,10 @@ export class BlackComponent implements OnInit {
   cargarLista(){
 
     
-    this.BS.cargarBlacks().subscribe(listas=>{
-      this.listas= listas;
+    /*this.BS.cargarBlacks().subscribe(listas=>{
+      this.blacks= listas;
       console.log(listas);
-    });
+    });*/
   }
   crearLista(lista:Black){
    this.BS.crearBlack(lista);
@@ -233,6 +231,7 @@ export class BlackComponent implements OnInit {
   
 
   upload() {
+    
     console.log("csvArr.length: " + this.csvArr.length);
     let query = {};
     //console.log("request -->: " + JSON.stringify(this.request));
@@ -253,7 +252,7 @@ export class BlackComponent implements OnInit {
     for (let i = 0; i < this.csvArr.length; i++) {
       let client = this.csvArr[i]
       query["EMAIL"] = client.EMAIL;
-      client.BLACK= true;
+      //client.BLACK= true;
       this.request = {
         query: query
       }
@@ -263,9 +262,9 @@ export class BlackComponent implements OnInit {
         if (clients.length == 0) {
           for (let i = 0; i < this.csvArr.length; i++) {
             let client = this.csvArr[i];
-            client.BLACK= true;
+            //client.BLACK= true;
             this.creationDate = new Date();
-            client.FECHA_CREACION = this.transformDate(this.creationDate);
+            //client.FECHA_CREACION = this.transformDate(this.creationDate);
           }
           console.log("client: " + JSON.stringify([client]));
 
@@ -284,7 +283,7 @@ export class BlackComponent implements OnInit {
         }
         else {
           client._id = clients[0]._id;
-          client.BLACK= true;
+          //client.BLACK= true;
           //console.log("client -->: " + JSON.stringify(client._id));
           this.rest.upsertClients(client).subscribe((data) => {
             if (data.success) {

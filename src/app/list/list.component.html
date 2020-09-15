@@ -14,8 +14,48 @@
 </div>  -->
 <mat-card>
   <h1>Listas </h1>
-    <button mat-raised-button color="primary" routerLink="/manager" >Nueva lista</button>
+  
+    <button mat-raised-button color="primary" (click)="abrirSweetAlert()" >Nueva lista</button>
 </mat-card>
+
+<mat-card-content fxLayoutAlign="center">
+  <input class="custom-file-upload" type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
+</mat-card-content>
+<mat-card-actions fxLayout="row" fxLayoutAlign="center">
+
+  <div>
+      <div *ngIf="isCompleted">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+      <div *ngIf="isFinish">
+          <mat-card-content fxLayoutAlign="center">
+              <h3>Carga Correcta</h3>
+              <img img src="assets/img/finish.png" style="width:30px;height:30px;">
+          </mat-card-content>
+      </div>
+      <div *ngIf="isError">
+          <mat-card-content fxLayoutAlign="center" class="parent">
+              <h3>Ha Ocurrido Un error</h3>
+              <br>
+              <h3 *ngIf="!isCSV_Valid">No es un archivo CSV</h3>
+              <img img src="assets/img/error.png" style="width:80px;height:50px;">
+          </mat-card-content>
+      </div>
+
+      <div>
+          <mat-card-actions color="accent" *ngIf="isFinish && !isError">
+            
+              <button mat-raised-button (click)="upload()" color="accent">Subir</button>
+          </mat-card-actions>
+      </div>
+
+      <div>
+          <mat-card-actions color="accent" *ngIf="finishLoad">
+              <h2>Carga finalizada</h2>
+          </mat-card-actions>
+      </div>
+  </div>
+</mat-card-actions>
 
     
   
