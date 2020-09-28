@@ -7,7 +7,7 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RestService {
-  endpoint = 'ec2-52-205-245-151.compute-1.amazonaws.com:3000/';
+  endpoint = 'http://http://ec2-52-205-245-151.compute-1.amazonaws.com:3000/';
 
 
   constructor(private http: HttpClient) {
@@ -55,7 +55,7 @@ export class RestService {
   crearLista(nombre: string):Observable<any> {
     return this.http.post<any>(this.endpoint + 'api/listas/',{nombre})
     .pipe(map(this.extractData));
-  
+
   }
 
   getUsers(): Observable<any> {
@@ -104,7 +104,7 @@ export class RestService {
     return this.http.post<any>(this.endpoint + 'clients/addClients', request)
       .pipe(map(this.extractData));
   }
-  
+
   upsertClients(request): Observable<any> {
     return this.http.post<any>(this.endpoint + 'clients/upsertClients', request)
       .pipe(map(this.extractData));
