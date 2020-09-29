@@ -18,7 +18,7 @@ export class DashboardService {
   }
 
 
-  async getAndBuildStadistics() {
+async getAndBuildStadistics() {
     let it = this;
     let response = {};
     let request = {

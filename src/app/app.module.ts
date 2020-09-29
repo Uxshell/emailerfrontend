@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { ManagerComponent } from './manager/manager.component';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+//import {LoginComponent} from './auth/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { HeaderComponent } from './shared/components/header/header.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
-import { RegisterComponent } from './register/register.component';
+//import { RegisterComponent } from './register/register.component';
+import {RegisterComponent} from './auth/register/register.component';
 import { AlertComponent } from './_alerts/alert/alert.component';
 import { SidebarComponent } from './core/components/sidebar/sidebar.component';
 import { FooterComponent } from './core/components/footer/footer.component';
@@ -61,9 +63,6 @@ const appRoutes: Routes = [
       path: 'manager',
       component: ManagerListComponent
     },{
-      path: 'register',
-      component: RegisterComponent
-    },{
       path: 'automation',
       component: AutomationComponent
     },{
@@ -76,7 +75,7 @@ const appRoutes: Routes = [
   },
   { path: 'login', component: LoginComponent },
 
-  //{ path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent }
 
 ];
 

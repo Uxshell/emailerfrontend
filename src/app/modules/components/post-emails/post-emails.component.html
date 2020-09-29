@@ -51,18 +51,39 @@
 
 </div>
 
+<mat-card><h3 style="text-align: center;">Tags de la plantilla HTML</h3>
+
+<mat-form-field class="example-chip-list">
+    <mat-chip-list #chipList aria-label="Tags selection">
+      <mat-chip
+        *ngFor="let fruit of fruits"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(fruit)">
+        {{fruit}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="New Tag..."
+        #fruitInput
+        [formControl]="fruitCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+        {{fruit}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
 
 
+</mat-card>
+<!--FILTROS PARA EL ENVIO -->
 <mat-nav-list>
-
-
-
     <mat-divider></mat-divider>
-
-
-
-
-
     <mat-divider></mat-divider>
 
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="0px">
@@ -163,6 +184,7 @@
 
     <mat-divider></mat-divider>
 
+
     <div class="profile-card">
         <div *ngIf="isCompleted ">
             <mat-progress-bar mode="indeterminate "></mat-progress-bar>
@@ -186,4 +208,5 @@
             </mat-card-actions>
         </div>
     </div>
+
 </mat-nav-list>

@@ -2,6 +2,10 @@
     vertical-align: middle;
     margin-right: 20px;
 }
+.example-chip-list {
+    width: 100%;
+  }
+  
 
 .profile-card {
     text-align: center;

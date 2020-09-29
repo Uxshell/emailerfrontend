@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from 'src/app/_alerts/alert/alert.component';
 
+
 @Component({
   selector: 'app-stadistics',
   templateUrl: './stadistics.component.html',
@@ -78,6 +79,7 @@ export class StadisticsComponent implements OnInit {
       this.router.navigate(['/']);
     }
 
+
   }
 
 
@@ -119,19 +121,25 @@ export class StadisticsComponent implements OnInit {
   }
 
   doSearch() {
+
     this.isProgress = true;
     this.responseData = {};
     let request = {
       "startTime": this.initDate + " 00:00:00",
       "endTime": this.finalDate + " 23:59:59",
-      "metricName": "emailerMassiveMetrics"
+      "metricName": "emailerSetMetrics"
+
     }
+    
+    
+    
+    console.log("request antes de rest.getAllSta: "+request.endTime);
     this.rest.getAllStatistics(request).subscribe((data) => {
       //console.log("ALL: " + JSON.stringify(data));
 
 
-      //console.log("body: " + data.response.statusCode);
-      //console.log("body: " + JSON.stringify(data.response));
+      console.log("body STATUS CODE: " + data.response.statusCode);
+      console.log("body: " + JSON.stringify(data.response));
 
       let body = JSON.parse(data.response);
       let newBody = JSON.parse(JSON.stringify(body));
@@ -142,14 +150,15 @@ export class StadisticsComponent implements OnInit {
         this.showAlert("Error de conexión. Intentarlo más tarde");
       }
       else {
-        //console.log("hay datos");
+        console.log("hay datos de la metrica ");
         let events = ["Click", "Open", "Bounce", "Delivery", "Reject", "Send"]
-
+        let bounceType =[""]
 
         for (let i = 0; i < events.length; i++) {
           let sum = 0;
           let obj = newBody.body[events[i]];
           let dataPoints = obj.Datapoints;
+          
           for (let x = 0; x < dataPoints.length; x++) {
             let sample = dataPoints[x]["SampleCount"];
             sum += sample;
@@ -185,8 +194,9 @@ export class StadisticsComponent implements OnInit {
         this.isProgress = false;
 
       }
-
-      //console.log("Response Data: " + JSON.stringify(this.responseData));
+      console.log("this.send"+this.send);
+      console.log("this.undelivery"+this.undelivery);
+      console.log("Response Data: " + JSON.stringify(this.responseData));
       if (this.send != 0) {
         //his.title = "Delivery"
         this.pieChartDelivery = this.dashboardService.pieChartDelivery(this.responseData);

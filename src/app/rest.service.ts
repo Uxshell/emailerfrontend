@@ -35,6 +35,7 @@ export class RestService {
   }
 
 
+
   login(request): Observable<any> {
     let email = request.email;
     let password = request.password;
@@ -59,7 +60,7 @@ export class RestService {
   }
 
   getUsers(): Observable<any> {
-    return this.http.get<any>(this.endpoint + 'api/listas/getListas')
+    return this.http.get<any>(this.endpoint + 'users/getUsers')
     .pipe(map(this.extractData));
   }
 
@@ -129,6 +130,7 @@ export class RestService {
     return this.http.post<any>(this.endpoint + 'aws/getAllStatistics', request)
       .pipe(map(this.extractData));
   }
+
 
 
 }

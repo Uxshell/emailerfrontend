@@ -1,15 +1,20 @@
-import { Component, OnInit, ViewContainerRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild, Input , ElementRef,ViewChildren} from '@angular/core';
 import { DashboardService } from '../../dashboardServices';
 import { Router, NavigationEnd } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { RestService } from 'src/app/rest.service';
 import { Papa } from 'ngx-papaparse';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import {MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material/autocomplete';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {map, startWith} from 'rxjs/operators';
 import { AlertComponent } from 'src/app/_alerts/alert/alert.component';
 import { MatInput } from '@angular/material/input';
 import { DatePipe } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/app/_models/user';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+
 
 @Component({
   selector: 'app-post-emails',
@@ -19,12 +24,23 @@ import { User } from 'src/app/_models/user';
 export class PostEmailsComponent implements OnInit {
   @ViewChild('campaignLabel') campaignLabel: MatInput;
   @ViewChild('subjectLabel') subjectLabel: MatInput;
+//para tags
+allFruits: string[] = []; //header
+//public allFruits: any[] = [];
+public fruits: string[]=['Nombre'];
+visible = true;
+selectable = true;
+removable = true;
+separatorKeysCodes: number[] = [ENTER, COMMA];
+fruitCtrl = new FormControl();
+filteredFruits: Observable<string[]>;
 
+@ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
+//termina tags
   date = new FormControl(new Date());
   initDate = null;
   finalDate = null;
-
-  selected = 'option1';
   hasName: boolean = false;
   request;
   subject;
@@ -65,6 +81,11 @@ export class PostEmailsComponent implements OnInit {
   username: string;
 
   constructor(private datePipe: DatePipe, private dialog: MatDialog, public rest: RestService, private router: Router, private dashboardService: DashboardService) {
+    
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
     this.user = this.currentUserSubject.value;
@@ -75,6 +96,43 @@ export class PostEmailsComponent implements OnInit {
       this.router.navigate(['statistics']);
     }
   }
+  //metodos para Tags
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.fruits.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+
+    this.fruitCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.fruits.push(event.option.viewValue);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+  //termina metodos para Tags
 
   ngOnInit(): void {
     //let csvTableHeader = ["EMAIL", "NOMBRE", "APELLIDO", "GENERO", "NACIMIENTO", "PAIS", "CONSENTIMIENTO", "ORIGEN", "CALIFICACION", "CURP", "NSS", "SIEFORE", "EDAD", "ESTADOREPUBLICA", "SEGUNDONOMBRE", "SEGUNDOAPELLIDO", "CP", "PLATAFORMA", "TARGET", "HORARIOCONTACTO", "INTERES", "FECHAINGRESO", "ESTADOCIVIL", "DOMICILIOMUNICIPIO", "BIOMETRICO", "RECERTIFICACION", "ESTIDE", "PRIMERAFORE", "AHORROVOLUNTARIO", "TIPOCLIENTE", "AFOREMOVIL", "FECHADEREVERSION", "PAPERLESS", "IMSSISSSTEMIXTO", "SALDOVOL", "SALDORCV", "RENDIMIENTO", "CONTRATO", "RAZONSOCIAL", "EJECUTIVO", "CONTACTO", "FECHACERTIFICACION", "ANTIGUEDADAXXI", "SEGMENTO", "SUBSEGMENTO", "KLICCODIGO", "KLICVALIDO", "FECHACARTAPREFERENTE", "NOMBREEJECUTIVO", "TELEFONOEJECUTIVO", "EXTENSIONEJECUTIVO", "EMAILEJECUTIVO", "MIAFOREDIGITAL", "REFERENCIACIE", "FECHA_CREACION"];
@@ -82,6 +140,7 @@ export class PostEmailsComponent implements OnInit {
       console.log("data filters: " + JSON.stringify(data));
       if (data.filters.filters) {
         this.headers = data.filters.filters;
+        this.allFruits= this.headers;
         this.buildMapTypes(this.headers);
 
       }
@@ -265,19 +324,24 @@ export class PostEmailsComponent implements OnInit {
 
 
   sendEmail(clients, emails) {
+
     let html = this.fileContent;
     let subject = this.subjectInput.value;
-    //console.log(html);
+    let tagsforHtml = this.fruits;
+
+    console.log("html desde sendEmail"+html);
     console.log("subject: " + subject);
     let it = this;
     let request = {
       "subject": subject,
       "clients": clients,
-      "html": html
+      "html": html,
+      "tags":tagsforHtml,
     }
 
-    this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
-      this.isProgress = false;
+this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
+      
+  this.isProgress = false;
       console.log(JSON.stringify(data));
       if (data.statusCode === 200) {
         const dialogConfig = new MatDialogConfig();
