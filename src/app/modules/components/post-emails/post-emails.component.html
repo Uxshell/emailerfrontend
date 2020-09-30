@@ -3,11 +3,22 @@
 
 
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
-    <mat-card fxFlex="50%">
+    <mat-card fxFlex="25%">
         <h3>Campaña</h3>
         <mat-form-field>
             <input matInput placeholder="Campaña" required #campaignLabel="matInput" name="campaignLabel" type="text" [formControl]="labelInput">
         </mat-form-field>
+        <mat-divider></mat-divider>
+    </mat-card>
+    <mat-card fxFlex="25%">
+        <mat-form-field appearance="fill">
+            <mat-label>Lista</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let food of listas" [value]="food.nombre">
+                {{food.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         <mat-divider></mat-divider>
     </mat-card>
     <mat-card fxFlex="25%">

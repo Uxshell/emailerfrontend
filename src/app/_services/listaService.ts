@@ -7,7 +7,7 @@ import {Cliente} from '../_models/clienteModel';
 
 
 export class ListaService {
-    endpoint = 'http://ec2-52-205-245-151.compute-1.amazonaws.com:3000';
+    endpoint = 'http://localhost:3000';
     
     constructor( private http: HttpClient
     ){}

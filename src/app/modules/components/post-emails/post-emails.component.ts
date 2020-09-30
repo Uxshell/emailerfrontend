@@ -14,7 +14,8 @@ import { DatePipe } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/app/_models/user';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-
+//import {Lista} from '../_models/listaModel';
+import {Lista} from '../../../_models/listaModel';
 
 @Component({
   selector: 'app-post-emails',
@@ -55,7 +56,7 @@ filteredFruits: Observable<string[]>;
   options = [];
   optionText = new FormControl();
   optionSimbols = new FormControl();
-
+  public listas: Lista[] =[];
   public headers: any[] = [];
   papa: Papa = new Papa();
   header = new FormControl();
@@ -81,6 +82,7 @@ filteredFruits: Observable<string[]>;
   username: string;
 
   constructor(private datePipe: DatePipe, private dialog: MatDialog, public rest: RestService, private router: Router, private dashboardService: DashboardService) {
+
     
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
@@ -89,13 +91,35 @@ filteredFruits: Observable<string[]>;
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
     this.user = this.currentUserSubject.value;
-
+      this.cargarLista();
     if (this.user === null) {
       this.router.navigate(['login']);
     } else if (this.user.rol == 'viewer') {
       this.router.navigate(['statistics']);
     }
+  
   }
+
+  cargarLista(){
+    
+    this.rest.getLists().subscribe((data)=>{
+      this.listas = data.listas;
+      //var milistas:Lista[]=[]= data.data;
+      //var listas = data.data;
+      console.log("data list: " + JSON.stringify(this.listas));
+          
+    });
+
+  /*this.listService.cargarListas().subscribe((listas)=>{
+
+    
+    //this.cargando= false;
+    this.listas= listas;
+    console.log(listas);
+  });*/
+}
+
+
   //metodos para Tags
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -268,6 +292,7 @@ filteredFruits: Observable<string[]>;
       let client = {};
 
       console.log(data.clients.length);
+      
       if (data.clients.length > 0) {
         let obj = data.clients;
         total = data.total;

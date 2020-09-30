@@ -11,7 +11,7 @@ import { environment } from '../../environments/environment';
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
 
-const base_url = 'http://ec2-52-205-245-151.compute-1.amazonaws.com:3000';
+const base_url = 'http://localhost:3000';
 
 declare const gapi: any;
 
