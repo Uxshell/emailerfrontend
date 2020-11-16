@@ -16,4 +16,4 @@ $ npm install
 $ npm start
 ```
 
-Then open a browser and navigate to [http://localhost:3000/tests.html](http://localhost:3000/tests.html)
+Then open a browser and navigate to [ttp://ec2-18-234-63-154.compute-1.amazonaws.com/tests.html](ttp://ec2-18-234-63-154.compute-1.amazonaws.com/tests.html)
