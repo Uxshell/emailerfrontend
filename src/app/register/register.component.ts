@@ -9,7 +9,12 @@ import { HttpHeaders } from '@angular/common/http';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from '../_alerts/alert/alert.component';
 
-@Component({ templateUrl: 'register.component.html' })
+@Component({
+    selector: 'app-login',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css']
+}
+    )
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
@@ -19,7 +24,7 @@ export class RegisterComponent implements OnInit {
     password: string;
     response = {};
     //selected = "admin";
-    selected;
+    selected: string;
 
 
     private currentUserSubject: BehaviorSubject<User>;
@@ -60,22 +65,26 @@ export class RegisterComponent implements OnInit {
     }
 
     async register() {
-        console.log(this.email+''+this.password);
+        console.log("DATA RECIBIDA EN REGISTER"+this.email+''+this.password);
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
+        // redirect to home if already logged in
+        this.user = this.currentUserSubject.value;
+
         const dialogConfig = new MatDialogConfig();
         if (this.email && this.password && this.selected) {
-
+        
             let headers = new HttpHeaders({
-                'Content-Type': 'application/json',
-                'access-token': this.user.token
-            });
-            let headersB = new HttpHeaders({
                 'Content-Type': 'application/json',
                 'access-token': this.user.token
             });
             this.request = {
                 email: this.email
             }
+            
+            
             let userDB = await this.getUserByEmail(this.request, headers);
+
             console.log("userDB: " + JSON.stringify(userDB));
             if (userDB["response"]["user"]) {
                 this.showAlertMessage(dialogConfig, "El usuario ya existe")
@@ -89,7 +98,7 @@ export class RegisterComponent implements OnInit {
                 }
                 this.loading = true;
                 //console.log("request..." + JSON.stringify(this.request));
-                this.rest.addUser(this.request, headersB).subscribe((data) => {
+                this.rest.addUser(this.request, headers).subscribe((data) => {
                     //console.log("data..." + JSON.stringify(data));
                     let isError = false;
                     if (data.userId !== null) {
@@ -147,7 +156,7 @@ export class RegisterComponent implements OnInit {
         let it = this;
         return new Promise(async function (resolve, reject) {
             it.rest.getUserByEmail(request, headers).subscribe((data) => {
-                console.log("response..." + JSON.stringify(data));
+                console.log("RESPONSE..." + JSON.stringify(data));
                 resolve(data);
             });
         });

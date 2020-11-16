@@ -13,7 +13,7 @@
     <mat-card fxFlex="25%">
         <mat-form-field appearance="fill">
             <mat-label>Lista</mat-label>
-            <mat-select>
+            <mat-select [(value)]="seleccionada">
               <mat-option *ngFor="let food of listas" [value]="food.nombre">
                 {{food.nombre}}
               </mat-option>
@@ -47,7 +47,27 @@
         
     </mat-card>
 </div>
+<mat-divider></mat-divider>
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+    <mat-card fxFlex="100%">
+        <div class="profile-card">
+            <h3>Programar envío</h3>
+            <label for="appt">Hora de envío:</label>    
+            <input type="time" id="tim" name="appt" min="01:00" max="24:00" #miTime required>
 
+            <button mat-button (click)="getValueT()">DEFINIR HORA</button>
+          
+            <mat-form-field appearance="fill">
+              <mat-label>Selecciona la fecha</mat-label>
+              <input matInput [matDatepicker]="picker"  [min]="miniDate" (dateChange)="updateDOB($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+          
+            </mat-form-field>
+        </div>
+    </mat-card>
+
+</div>
 <mat-divider></mat-divider>
 
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
@@ -61,7 +81,7 @@
     </mat-card>
 
 </div>
-
+<mat-divider></mat-divider>
 <mat-card><h3 style="text-align: center;">Tags de la plantilla HTML</h3>
 
 <mat-form-field class="example-chip-list">
@@ -212,6 +232,30 @@
                 <img img src="assets/img/error.png " style="width:80px;height:50px; ">
             </div>
         </div>
+
+      <!--  <div>
+    
+    
+        <p><mat-checkbox [formControl]="disableSelect">PROGRAMAR FECHA DE ENVÍO</mat-checkbox></p>
+          
+          <label for="appt">Hora de envío:</label>
+
+          <input type="time" id="tim" name="appt" min="01:00" max="24:00" #miTime required>
+       
+          
+          <button mat-button (click)="getValueT()"> DEFINIR HORA</button>
+        
+          
+          <mat-form-field appearance="fill">
+            <mat-label>Selecciona la fecha</mat-label>
+            
+            <input matInput [matDatepicker]="picker"  [min]="miniDate" (dateChange)="updateDOB($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        
+          </mat-form-field>
+        </div>       -->
+<!--TERMINA SELECT DE ENVIOS PROGRAMADOS-->          
 
         <div class="bottom-space">
             <mat-card-actions color="accent" *ngIf="isFinish && htmlLoaded && !isError ">

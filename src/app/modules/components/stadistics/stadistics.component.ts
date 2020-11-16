@@ -56,6 +56,11 @@ export class StadisticsComponent implements OnInit {
   finalDate = null;
   maxDate = new Date();
   responseData = {};
+  //prueba de formateo fecha
+  year = null;
+  month =null;
+  day =null;
+
   //@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
 
@@ -99,6 +104,7 @@ export class StadisticsComponent implements OnInit {
   updateDOB(dateObject) {
     // convert object to string then trim it to yyyy-mm-dd
     const stringified = JSON.stringify(dateObject.value);
+    console.log("valor de stringified antes de "+stringified);
     const dob = stringified.substring(1, 11);
     this.initDate = dob;
 
@@ -106,7 +112,22 @@ export class StadisticsComponent implements OnInit {
     var y: number = +splitted[2];
     y = y + 1;
     let dateForm = "" + splitted[0] + "-" + splitted[1] + "-" + y;
+    console.log("dateForm:"+dateForm);
     this.minDate = new Date(dateForm)
+
+  }
+  
+  formateo(dateObject) {
+    // convert object to string then trim it to yyyy-mm-dd
+    const stringified = JSON.stringify(dateObject.value);
+    const exy = stringified.substring(1, 5);
+    this.year = exy;
+
+   /* var splitted = dob.split("-", 3);
+    var y: number = +splitted[2];
+    y = y + 1;
+    let dateForm = "" + splitted[0] + "-" + splitted[1] + "-" + y;
+    this.minDate = new Date(dateForm)*/
 
   }
 
@@ -124,8 +145,10 @@ export class StadisticsComponent implements OnInit {
 
     this.isProgress = true;
     this.responseData = {};
+    console.log("valor de initDate:"+this.initDate);
     let request = {
       "startTime": this.initDate + " 00:00:00",
+
       "endTime": this.finalDate + " 23:59:59",
       "metricName": "emailerSetMetrics"
 

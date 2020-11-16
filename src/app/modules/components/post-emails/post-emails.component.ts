@@ -16,6 +16,9 @@ import { User } from 'src/app/_models/user';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 //import {Lista} from '../_models/listaModel';
 import {Lista} from '../../../_models/listaModel';
+import { MatListItem } from '@angular/material/list';
+import { faHorseHead } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-post-emails',
@@ -29,15 +32,25 @@ export class PostEmailsComponent implements OnInit {
 allFruits: string[] = []; //header
 //public allFruits: any[] = [];
 public fruits: string[]=['Nombre'];
+public seleccionada: string;
+//para programados
+/*mes:number = 10;
+dia = 14;
+hora = 12;
+minutos = 09;
+segundos = 0;*/
 visible = true;
 selectable = true;
 removable = true;
 separatorKeysCodes: number[] = [ENTER, COMMA];
 fruitCtrl = new FormControl();
+maxDate = new Date();
+miniDate  = new Date();
 filteredFruits: Observable<string[]>;
-
+disableSelect = new FormControl(false);
 @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  @ViewChild("miTime") myNameElem: ElementRef;
 //termina tags
   date = new FormControl(new Date());
   initDate = null;
@@ -46,13 +59,15 @@ filteredFruits: Observable<string[]>;
   request;
   subject;
   filterHeader: string;
-  maxDate = new Date();
+  public timeEnvio;
+  public doh:number;
+  public dom:number;
   isCompleted: boolean = false;
   isFinish: boolean = false;
   isError: boolean = false;
   htmlLoaded: boolean = false;
   isProgress: Boolean = false;
-
+  fechaEnvio: Date;
   options = [];
   optionText = new FormControl();
   optionSimbols = new FormControl();
@@ -62,6 +77,7 @@ filteredFruits: Observable<string[]>;
   header = new FormControl();
   labelInput = new FormControl();
   subjectInput = new FormControl();
+  public schedule=false;
   nameValue = "";
   maptypes = new Map();
   checked: boolean;
@@ -184,6 +200,7 @@ filteredFruits: Observable<string[]>;
     this.nameValue = this.labelInput.value;
     this.onChange(fileInputEvent.target.files[0]);
   }
+  
 
   public onChange(file: File): void {
     let fileReader = new FileReader();
@@ -199,8 +216,6 @@ filteredFruits: Observable<string[]>;
     return file.name.endsWith(".csv");
   }
 
-
-
   fileReset() {
     this.csvReader.nativeElement.value = "";
     this.records = [];
@@ -213,6 +228,7 @@ filteredFruits: Observable<string[]>;
 
 
   processData() {
+
     this.isProgress = true;
     let query = {};
     if (!this.labelInput.value) {
@@ -284,39 +300,40 @@ filteredFruits: Observable<string[]>;
     };
 
     console.log("request -->: " + JSON.stringify(this.request));
-
+    //obtenemos todos los clientes de la BD
     this.rest.getClients(this.request).subscribe((data) => {
       let emails = [];
       let total = 0;
       let clients = [];
       let client = {};
 
-      console.log(data.clients.length);
+      console.log("PODEROSISIMOS CLIENTES"+data.clients);
       
-      if (data.clients.length > 0) {
+      if (data.clients.length > 0) {//existen clientes en la BD
         let obj = data.clients;
         total = data.total;
         for (let i = 0; i < data.clients.length; i++) {
           let client = {};
           let obj = data.clients[i];
           //console.log("obj: " + JSON.stringify(obj));
-          if(obj.BLACK==false){
-          let email = {};
-          email["email"] = obj.EMAIL;
-          if (email) {
-            emails.push(email);
-          }
-          this.nameValue = obj.NOMBRE;
-          console.log("name: " + this.nameValue);
-          client = { name: obj.NOMBRE, email: obj.EMAIL };
-          clients.push(client);
+          if(obj.BLACK==false&&obj.ID_LISTA==this.seleccionada){
+          
+            let email = {};
+            email["email"] = obj.EMAIL;
+            if (email) {
+              emails.push(email);
+            }
+            this.nameValue = obj.NOMBRE;
+            client = { name: obj.NOMBRE, email: obj.EMAIL };
+            clients.push(client);
         }else{
-          console.log('un black');
+          console.log('NO MATCH TO LIST');
         }
           //break;
         }
         //console.log("emails Arr: " + JSON.stringify(emails));
         //this.sendEmail(emails);
+        
         this.sendEmail(clients, emails);
         this.createCampaig(query, emails);
         //*/
@@ -349,25 +366,70 @@ filteredFruits: Observable<string[]>;
 
 
   sendEmail(clients, emails) {
-
+    //let cron = require('node-cron');
     let html = this.fileContent;
     let subject = this.subjectInput.value;
     let tagsforHtml = this.fruits;
-
-    console.log("html desde sendEmail"+html);
-    console.log("subject: " + subject);
-    let it = this;
+    let fechaparaEnvio = this.fechaEnvio;
+    let programado = this.schedule;
+    console.log("Valor de programado"+programado);
+    //let it = this;
     let request = {
       "subject": subject,
       "clients": clients,
       "html": html,
-      "tags":tagsforHtml,
+      "tags": tagsforHtml,
+      "fecha": fechaparaEnvio,
+      "scheduleDef": programado
     }
+    if(programado == true){
+      const dialoSchedule = new MatDialogConfig();
+      let messageS = "El envío de correos se hará: " + fechaparaEnvio;
 
+      dialoSchedule.data = {
+        title: 'Envío programado',
+        message: messageS
+      };
+      let dialogRef = this.dialog.open(AlertComponent, dialoSchedule);
+      dialogRef.afterClosed().subscribe(result => {
+        this.isProgress = false;
+        if (result == 'confirm') {
+          this.ngOnInit();
+         // this.router.navigate(["/"]);
+        }
+      })
+      this.rest.activeSchedule(request).subscribe((data) => {
+        this.isProgress = false;
+        //this.router.navigate(["/"]);
+        if (data.statusCode === 200) {
+          const dialogConfig = new MatDialogConfig();
+          let message = "Se enviaron: " + emails.length + " correos programados";
+  
+          dialogConfig.data = {
+            title: 'Emails',
+            message: message
+          };
+  
+          let dialogRef = this.dialog.open(AlertComponent, dialogConfig);
+          dialogRef.afterClosed().subscribe(result => {
+            this.isProgress = false;
+            if (result == 'confirm') {
+              this.ngOnInit();
+              this.router.navigate(["/"]);
+            }
+          })
+        }
+        else {
+          console.error("ocurrio un error en el envio")
+          this.showAlert("Error", "ocurrio un error en el envio");
+        }
+      });
+    }else{
 this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
       
   this.isProgress = false;
       console.log(JSON.stringify(data));
+    
       if (data.statusCode === 200) {
         const dialogConfig = new MatDialogConfig();
         let message = "Se enviaron: " + emails.length + " correos electrónicos";
@@ -392,6 +454,7 @@ this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
       }
     });
   }
+}
 
   showAlert(tittle, message) {
     const dialogConfig = new MatDialogConfig();
@@ -462,77 +525,51 @@ this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
           break;
       }
     }
-    /*
-    this.maptypes.set("email", "text");
-    this.maptypes.set("nombre", "text");
-    this.maptypes.set("apellido", "text");
-    this.maptypes.set("genero", "checkbox");
-    this.maptypes.set("nacimiento", "text");
-    this.maptypes.set("pais", "text");
-    this.maptypes.set("consentimiento", "checkbox");
-    this.maptypes.set("origen", "text");
-    this.maptypes.set("calificacion", "number");
-    this.maptypes.set("curp", "text");
-    this.maptypes.set("nss", "text");
-    this.maptypes.set("siefore", "text");
-    this.maptypes.set("edad", "number");
-    this.maptypes.set("estadorepublica", "text");
-    this.maptypes.set("segundonombre", "text");
-    this.maptypes.set("segundoapellido", "text");
-    this.maptypes.set("cp", "text");
-    this.maptypes.set("plataforma", "text");
-    this.maptypes.set("target", "text");
-    this.maptypes.set("horariocontacto", "text");
-    this.maptypes.set("interes", "text");
-    this.maptypes.set("fechaingreso", "date");
-    this.maptypes.set("estadocivil", "text");
-    this.maptypes.set("domiciliomunicipio", "text");
-    this.maptypes.set("biometrico", "text");
-    this.maptypes.set("recertificacion", "text");
-    this.maptypes.set("estide", "text");
-    this.maptypes.set("primerafore", "text");
-    this.maptypes.set("ahorrovoluntario", "text");
-    this.maptypes.set("tipocliente", "text");
-    this.maptypes.set("aforemovil", "text");
-    this.maptypes.set("fechadereversion", "date");
-    this.maptypes.set("paperless", "text");
-    this.maptypes.set("imssissstemixto", "text");
-    this.maptypes.set("saldovol", "number");
-    this.maptypes.set("saldorcv", "number");
-    this.maptypes.set("rendimiento", "text");
-    this.maptypes.set("contrato", "text");
-    this.maptypes.set("razonsocial", "text");
-    this.maptypes.set("ejecutivo", "text");
-    this.maptypes.set("contacto", "text");
-    this.maptypes.set("fechacertificacion", "date");
-    this.maptypes.set("antiguedadaxxi", "text");
-    this.maptypes.set("segmento", "text");
-    this.maptypes.set("subsegmento", "text");
-    this.maptypes.set("kliccodigo", "text");
-    this.maptypes.set("klicvalido", "text");
-    this.maptypes.set("fechacartapreferente", "date");
-    this.maptypes.set("nombreejecutivo", "text");
-    this.maptypes.set("telefonoejecutivo", "text");
-    this.maptypes.set("extensionejecutivo", "text");
-    this.maptypes.set("emailejecutivo", "text");
-    this.maptypes.set("miaforedigital", "text");
-    this.maptypes.set("referenciacie", "text");
-    this.maptypes.set("fecha_creacion", "date");
-    //*/
+    
   }
 
   insertList() {
     this.csvActive = true;
   }
+  getValueT() {
+    /* this.timeEnvio = this.myNameElem.nativeElement.value;
+     console.log(this.timeEnvio);*/
+     const stringTime = this.myNameElem.nativeElement.value;
+      this.doh = stringTime.substring(0,2);
+      this.dom = stringTime.substring(3,6);
+      this.schedule = true;
+     console.log("HORA"+this.doh+"MINUTE"+this.dom);
+     
+ }
 
   updateDOB(dateObject) {
     // convert object to string then trim it to yyyy-mm-dd
+    
     const stringified = JSON.stringify(dateObject.value);
+    console.log("valor de stringified en postantes de "+stringified);
     const dob = stringified.substring(1, 11);
-
     this.initDate = dob;
-    //console.log("initDate: " + this.initDate);
+    //var year = stringified.substring(1, 5);
+    
+    var splitted = dob.split("-", 3);
+    var m: number = +splitted[1];
+    var y: number = +splitted[0];
+    var d: number = +splitted[2];
+    m = m -1;
+    //console.log("YEAR"+year);
+    //let dateForm = y+", "+m+", "+this.dia+", "+this.hora+", "+this.minutos+", "+this.segundos ;
+    //let dateForm = "" + splitted[0] + "-" + splitted[1] + "-" + y;
+
+    //console.log("dateForm:"+dateForm);
+   //let dateForm = "" + splitted[0] + "," + splitted[1] + ", " + m+ ", " +12+ "," + 33+ ","+ 0;
+   //let dateForm = ""+y+", "+ m + ", " + 14 +", "+ 12+", " + 34+", "+ 0;
+   //this.fechaEnvio = new Date(dateForm);
+   
+  this.fechaEnvio = new Date(y, m, d, this.doh, this.dom, 0);
+    console.log("fechaEnvio"+this.fechaEnvio);
   }
+ 
+
 
   formDate(event) {
     const stringified = JSON.stringify(event.value);
@@ -542,5 +579,9 @@ this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
     //console.log("finalDate: " + this.finalDate);
 
   }
+
+
+
+  
 
 }

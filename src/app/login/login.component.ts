@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -65,10 +66,12 @@ export class LoginComponent implements OnInit {
     this.rest.login(this.request).subscribe((data) => {
       //console.log("data..." + JSON.stringify(data));
       if (data.response.success) {
-   //     this.token = data.response.token;
+      this.token = data.response.token;
         this.user = data.response.user;
-     //   this.user.token = this.token;
+      this.user.token = data.response.token;
         this.user.rol = data.response.user.rol;
+        this.user.userId= data.response.user.userId;
+        console.log('USER ID de usuario logueado '+data.response.user.userId);
         localStorage.setItem('currentUser', JSON.stringify(this.user));
         this.router.navigate(["/"]);
       }

@@ -16,7 +16,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
+  public IDLISTA_generado:string='';
   public headers: any[] = [];
+  
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   public currentList: Observable<Lista>;
@@ -126,8 +128,12 @@ crearLista(lista:Lista){
     
     if( value.trim().length > 0 ) {
       this.res.crearLista( value )
+      //this.res.getClients(this.request).subscribe((data) => {
       .subscribe( (resp: any) => {
-        this.listas.push( resp.lista )
+        this.listas.push( resp.lista._id )
+        console.log('_id de lista antes de'+resp.lista._id);
+        this.IDLISTA_generado=resp.lista._id.toString();
+
       })
 
     }
@@ -241,7 +247,10 @@ crearLista(lista:Lista){
     for (let i = 0; i < this.csvArr.length; i++) {
       let client = this.csvArr[i]
       query["EMAIL"] = client.EMAIL;
-      client.BLACK= true;
+      client.BLACK= false;
+
+      client.IDLISTA=this.IDLISTA_generado;
+      console.log('IDlistagenerado'+this.IDLISTA_generado);
       this.request = {
         query: query
       }
@@ -252,6 +261,8 @@ crearLista(lista:Lista){
           for (let i = 0; i < this.csvArr.length; i++) {
             let client = this.csvArr[i];
             client.BLACK= false;
+            client.IDLISTA=this.IDLISTA_generado;
+            console.log('IDlistagenerado'+this.IDLISTA_generado);
             this.creationDate = new Date();
             //client.FECHA_CREACION = this.transformDate(this.creationDate);
           }
@@ -271,8 +282,10 @@ crearLista(lista:Lista){
           });
         }
         else {
-          client._id = clients[0]._id;
-          client.BLACK= true;
+          //client._id = clients[0]._id;
+          //client.BLACK= true;
+          //client.IDLISTA=this.IDLISTA_generado;
+          //client.IDLISTA = ;
           //console.log("client -->: " + JSON.stringify(client._id));
           this.res.upsertClients(client).subscribe((data) => {
             if (data.success) {

@@ -33,16 +33,22 @@ export class RestService {
     return this.http.post<any>(this.endpoint + 'aws/sendMassiveEmails', request)
       .pipe(map(this.extractData));
   }
+  activeSchedule(request): Observable<any>{
+    return this.http.post<any>(this.endpoint + 'aws/sendMassiveEmailsWithSchedule', request)
+      .pipe(map(this.extractData));
+  }
 
   
 
   login(request): Observable<any> {
+    
     let email = request.email;
     let password = request.password;
     let res = {};
     return this.http.post<any>(this.endpoint + 'users/login', request)
       .pipe(map(this.extractData));
   }
+  
 
   addUser(request, headers): Observable<any> {
     return this.http.post<any>(this.endpoint + 'users/addUser', request, { headers: headers })
@@ -54,6 +60,7 @@ export class RestService {
     .pipe(map(this.extractData));
   }
   crearLista(nombre: string):Observable<any> {
+  
     return this.http.post<any>(this.endpoint + 'api/listas/',{nombre})
     .pipe(map(this.extractData));
   
