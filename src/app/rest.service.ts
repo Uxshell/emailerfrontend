@@ -7,7 +7,7 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RestService {
-endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com/';
+endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
   //  endpoint = 'ttp://ec2-18-234-63-154.compute-1.amazonaws.com/';
   
 
