@@ -65,7 +65,7 @@ export class RegisterComponent implements OnInit {
     }
 
     async register() {
-        console.log("DATA RECIBIDA EN REGISTER"+this.email+''+this.password);
+        //console.log("DATA RECIBIDA EN REGISTER"+this.email+''+this.password);
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
         // redirect to home if already logged in
@@ -85,7 +85,7 @@ export class RegisterComponent implements OnInit {
             
             let userDB = await this.getUserByEmail(this.request, headers);
 
-            console.log("userDB: " + JSON.stringify(userDB));
+            //console.log("userDB: " + JSON.stringify(userDB));
             if (userDB["response"]["user"]) {
                 this.showAlertMessage(dialogConfig, "El usuario ya existe")
             }
@@ -156,7 +156,7 @@ export class RegisterComponent implements OnInit {
         let it = this;
         return new Promise(async function (resolve, reject) {
             it.rest.getUserByEmail(request, headers).subscribe((data) => {
-                console.log("RESPONSE..." + JSON.stringify(data));
+           //     console.log("RESPONSE..." + JSON.stringify(data));
                 resolve(data);
             });
         });

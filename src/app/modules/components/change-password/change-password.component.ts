@@ -91,10 +91,10 @@ export class ChangePasswordComponent implements OnInit {
       };
 
       this.loading = true;
-      console.log("change password...");
+      //console.log("change password...");
 
       this.rest.changePassword(this.request).subscribe((data) => {
-        console.log("data:" + JSON.stringify(data));
+      //  console.log("data:" + JSON.stringify(data));
         if (data.success) {
           this.showAlert("Contraseña modificada exitosamente");
 

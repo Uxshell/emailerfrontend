@@ -12,7 +12,7 @@ export class DashboardService {
 
   async getValueWithAsync() {
     const value = await this.getAndBuildStadistics();
-    console.log(`async result: ${value}`);
+    //console.log(`async result: ${value}`);
     return value;
     //console.log(`async result: ${value}`);
   }
@@ -26,7 +26,7 @@ async getAndBuildStadistics() {
       "endDate": "2020/07/23"
     }
     this.rest.getAllStatistics(request).subscribe((data) => {
-      console.log("ALL: " + JSON.stringify(data));
+      //console.log("ALL: " + JSON.stringify(data));
     });
 
     return new Promise(async function (resolve, reject) {
@@ -59,10 +59,10 @@ async getAndBuildStadistics() {
 
 
           }
-          console.log("deliveryAttempts: " + delivery);
+          /*console.log("deliveryAttempts: " + delivery);
           console.log("bounces: " + bounces);
           console.log("complaints: " + complaints);
-          console.log("rejects: " + rejects);
+          console.log("rejects: " + rejects);*/
 
 
           response["delivery"] = delivery;
@@ -83,9 +83,9 @@ async getAndBuildStadistics() {
 
 
     }).then(function (value) {
-      console.log("finish promise" + value);
+//      console.log("finish promise" + value);
       //it.valueGlobal = value;
-      console.log("build graphics...");
+  //    console.log("build graphics...");
 
     });
   }
@@ -116,12 +116,12 @@ async getAndBuildStadistics() {
   }
 
   pieChartOpen(responseData) {
-    console.log("entregados: " + responseData.Delivery);
+  /*  console.log("entregados: " + responseData.Delivery);
     console.log("bounce: " + responseData.Bounce);
     console.log("abiertos: " + responseData.Open);
     console.log("click: " + responseData.Click);
     console.log("No entregados: " + responseData.Reject);
-    console.log("enviados: " + responseData.Send);
+    console.log("enviados: " + responseData.Send);*/
 
     return [{
       name: 'Open',

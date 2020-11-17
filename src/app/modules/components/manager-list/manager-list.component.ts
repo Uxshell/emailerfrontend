@@ -86,7 +86,7 @@ export class ManagerListComponent implements OnInit {
           for (let i = 0; i < csvTableHeader.length; i++) {
             this.headers.push(csvTableHeader[i].toLowerCase());
           }
-          console.log("headers: " + this.headers);
+          //console.log("headers: " + this.headers);
 
 
           let csvTableData = [...results.data.slice(1, results.data.length)];
@@ -119,7 +119,7 @@ export class ManagerListComponent implements OnInit {
           this.isCompleted = false;
           this.isFinish = true;
           //console.log(JSON.stringify(clientObj));
-          console.log("--------<<<<<<<<<<------");
+          //console.log("--------<<<<<<<<<<------");
           //break;
 
 
@@ -131,20 +131,20 @@ export class ManagerListComponent implements OnInit {
           this.isFinish = false;
           console.error("no es CSV")
           for (let i = 0; i < results.errors.length; i++) {
-            console.log('Error Parsing CSV File: ', results.errors[i].message);
+            //console.log('Error Parsing CSV File: ', results.errors[i].message);
           }
         }
       };
     } else {
       this.isError = true;
-      console.log('No File Selected');
+      //console.log('No File Selected');
     }
 
   }
   
 
   upload() {
-    console.log("csvArr.length: " + this.csvArr.length);
+    //console.log("csvArr.length: " + this.csvArr.length);
     let query = {};
     //console.log("request -->: " + JSON.stringify(this.request));
 
@@ -156,8 +156,8 @@ export class ManagerListComponent implements OnInit {
       }
     }
     this.rest.setFilters(filterRequest).subscribe((data) => {
-      console.log("data filters: " + JSON.stringify(data));
-      console.log("complete filters.....");
+      /*console.log("data filters: " + JSON.stringify(data));
+      console.log("complete filters.....");*/
 
     });
 
@@ -200,7 +200,7 @@ export class ManagerListComponent implements OnInit {
           //console.log("client -->: " + JSON.stringify(client._id));
           this.rest.upsertClients(client).subscribe((data) => {
             if (data.success) {
-              console.log("complete upsert.....");
+              //console.log("complete upsert.....");
               this.finishLoad = true;
               this.isCompleted = false;
               this.isFinish = true;

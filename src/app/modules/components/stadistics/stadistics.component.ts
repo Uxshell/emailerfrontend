@@ -104,7 +104,7 @@ export class StadisticsComponent implements OnInit {
   updateDOB(dateObject) {
     // convert object to string then trim it to yyyy-mm-dd
     const stringified = JSON.stringify(dateObject.value);
-    console.log("valor de stringified antes de "+stringified);
+    //console.log("valor de stringified antes de "+stringified);
     const dob = stringified.substring(1, 11);
     this.initDate = dob;
 
@@ -112,7 +112,7 @@ export class StadisticsComponent implements OnInit {
     var y: number = +splitted[2];
     y = y + 1;
     let dateForm = "" + splitted[0] + "-" + splitted[1] + "-" + y;
-    console.log("dateForm:"+dateForm);
+    //console.log("dateForm:"+dateForm);
     this.minDate = new Date(dateForm)
 
   }
@@ -145,7 +145,7 @@ export class StadisticsComponent implements OnInit {
 
     this.isProgress = true;
     this.responseData = {};
-    console.log("valor de initDate:"+this.initDate);
+    //console.log("valor de initDate:"+this.initDate);
     let request = {
       "startTime": this.initDate + " 00:00:00",
 
@@ -156,14 +156,14 @@ export class StadisticsComponent implements OnInit {
     
     
     
-    console.log("request antes de rest.getAllSta: "+request.endTime);
+    //console.log("request antes de rest.getAllSta: "+request.endTime);
     this.rest.getAllStatistics(request).subscribe((data) => {
       //console.log("ALL: " + JSON.stringify(data));
-
+/*
 
       console.log("body STATUS CODE: " + data.response.statusCode);
       console.log("body: " + JSON.stringify(data.response));
-
+*/
       let body = JSON.parse(data.response);
       let newBody = JSON.parse(JSON.stringify(body));
       
@@ -173,7 +173,7 @@ export class StadisticsComponent implements OnInit {
         this.showAlert("Error de conexión. Intentarlo más tarde");
       }
       else {
-        console.log("hay datos de la metrica ");
+        //console.log("hay datos de la metrica ");
         let events = ["Click", "Open", "Bounce", "Delivery", "Reject", "Send"]
         let bounceType =[""]
 
@@ -217,9 +217,9 @@ export class StadisticsComponent implements OnInit {
         this.isProgress = false;
 
       }
-      console.log("this.send"+this.send);
+     /* console.log("this.send"+this.send);
       console.log("this.undelivery"+this.undelivery);
-      console.log("Response Data: " + JSON.stringify(this.responseData));
+      console.log("Response Data: " + JSON.stringify(this.responseData));*/
       if (this.send != 0) {
         //his.title = "Delivery"
         this.pieChartDelivery = this.dashboardService.pieChartDelivery(this.responseData);

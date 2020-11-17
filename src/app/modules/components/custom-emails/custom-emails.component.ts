@@ -48,12 +48,12 @@ export class CustomEmailsComponent implements OnInit {
 
   
   sendEmails(): void {
-    console.log("sendind emails...");
+    //console.log("sendind emails...");
     this.isCompleted = true;
   
     this.rest.activeLambdaEmailer().subscribe((data) => {
       //let res = JSON.parse(data);
-      console.log("-- data -- " + JSON.stringify(data));
+      //console.log("-- data -- " + JSON.stringify(data));
       this.isCompleted = false;
       if (data.response.statusCode === 200) {
         this.isFinish = true;

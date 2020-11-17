@@ -129,7 +129,7 @@ export class CustomStatisticsComponent implements OnInit {
 
       }
       else {
-        console.log("hay datos");
+        //console.log("hay datos");
         let events = ["Bounce", "Delivery", "Reject", "Send"]
 
 

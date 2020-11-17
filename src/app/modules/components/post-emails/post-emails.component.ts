@@ -122,7 +122,7 @@ disableSelect = new FormControl(false);
       this.listas = data.listas;
       //var milistas:Lista[]=[]= data.data;
       //var listas = data.data;
-      console.log("data list: " + JSON.stringify(this.listas));
+      //console.log("data list: " + JSON.stringify(this.listas));
           
     });
 
@@ -177,7 +177,7 @@ disableSelect = new FormControl(false);
   ngOnInit(): void {
     //let csvTableHeader = ["EMAIL", "NOMBRE", "APELLIDO", "GENERO", "NACIMIENTO", "PAIS", "CONSENTIMIENTO", "ORIGEN", "CALIFICACION", "CURP", "NSS", "SIEFORE", "EDAD", "ESTADOREPUBLICA", "SEGUNDONOMBRE", "SEGUNDOAPELLIDO", "CP", "PLATAFORMA", "TARGET", "HORARIOCONTACTO", "INTERES", "FECHAINGRESO", "ESTADOCIVIL", "DOMICILIOMUNICIPIO", "BIOMETRICO", "RECERTIFICACION", "ESTIDE", "PRIMERAFORE", "AHORROVOLUNTARIO", "TIPOCLIENTE", "AFOREMOVIL", "FECHADEREVERSION", "PAPERLESS", "IMSSISSSTEMIXTO", "SALDOVOL", "SALDORCV", "RENDIMIENTO", "CONTRATO", "RAZONSOCIAL", "EJECUTIVO", "CONTACTO", "FECHACERTIFICACION", "ANTIGUEDADAXXI", "SEGMENTO", "SUBSEGMENTO", "KLICCODIGO", "KLICVALIDO", "FECHACARTAPREFERENTE", "NOMBREEJECUTIVO", "TELEFONOEJECUTIVO", "EXTENSIONEJECUTIVO", "EMAILEJECUTIVO", "MIAFOREDIGITAL", "REFERENCIACIE", "FECHA_CREACION"];
     this.rest.getFilters().subscribe((data) => {
-      console.log("data filters: " + JSON.stringify(data));
+      //console.log("data filters: " + JSON.stringify(data));
       if (data.filters.filters) {
         this.headers = data.filters.filters;
         this.allFruits= this.headers;
@@ -299,7 +299,7 @@ disableSelect = new FormControl(false);
       query: query
     };
 
-    console.log("request -->: " + JSON.stringify(this.request));
+    //console.log("request -->: " + JSON.stringify(this.request));
     //obtenemos todos los clientes de la BD
     this.rest.getClients(this.request).subscribe((data) => {
       let emails = [];
@@ -307,7 +307,7 @@ disableSelect = new FormControl(false);
       let clients = [];
       let client = {};
 
-      console.log("PODEROSISIMOS CLIENTES"+data.clients);
+//      console.log("PODEROSISIMOS CLIENTES"+data.clients);
       
       if (data.clients.length > 0) {//existen clientes en la BD
         let obj = data.clients;
@@ -360,7 +360,7 @@ disableSelect = new FormControl(false);
 
 
     this.rest.createCampaign(request).subscribe((data) => {
-      console.log("campaña: " + data.campaignId);
+      //console.log("campaña: " + data.campaignId);
     });
   }
 
@@ -372,7 +372,7 @@ disableSelect = new FormControl(false);
     let tagsforHtml = this.fruits;
     let fechaparaEnvio = this.fechaEnvio;
     let programado = this.schedule;
-    console.log("Valor de programado"+programado);
+    //console.log("Valor de programado"+programado);
     //let it = this;
     let request = {
       "subject": subject,
@@ -428,7 +428,7 @@ disableSelect = new FormControl(false);
 this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
       
   this.isProgress = false;
-      console.log(JSON.stringify(data));
+    //  console.log(JSON.stringify(data));
     
       if (data.statusCode === 200) {
         const dialogConfig = new MatDialogConfig();
@@ -538,7 +538,7 @@ this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
       this.doh = stringTime.substring(0,2);
       this.dom = stringTime.substring(3,6);
       this.schedule = true;
-     console.log("HORA"+this.doh+"MINUTE"+this.dom);
+     //console.log("HORA"+this.doh+"MINUTE"+this.dom);
      
  }
 
@@ -546,7 +546,7 @@ this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
     // convert object to string then trim it to yyyy-mm-dd
     
     const stringified = JSON.stringify(dateObject.value);
-    console.log("valor de stringified en postantes de "+stringified);
+    //console.log("valor de stringified en postantes de "+stringified);
     const dob = stringified.substring(1, 11);
     this.initDate = dob;
     //var year = stringified.substring(1, 5);
@@ -566,7 +566,7 @@ this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
    //this.fechaEnvio = new Date(dateForm);
    
   this.fechaEnvio = new Date(y, m, d, this.doh, this.dom, 0);
-    console.log("fechaEnvio"+this.fechaEnvio);
+    //console.log("fechaEnvio"+this.fechaEnvio);
   }
  
 

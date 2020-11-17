@@ -32,10 +32,10 @@ export class LoginComponent implements OnInit {
     this.rest.getUsers().subscribe((data)=>{
       
       var users = data.data;
-      console.log("data users: " + JSON.stringify(users));
+      //console.log("data users: " + JSON.stringify(users));
       if (Object.keys(users).length === 0) {
         this.rest.createAdmin().subscribe((admin)=>{
-          console.log("data admin: " + JSON.stringify(admin));
+        //  console.log("data admin: " + JSON.stringify(admin));
           
         });
       }
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
       this.user.token = data.response.token;
         this.user.rol = data.response.user.rol;
         this.user.userId= data.response.user.userId;
-        console.log('USER ID de usuario logueado '+data.response.user.userId);
+        //console.log('USER ID de usuario logueado '+data.response.user.userId);
         localStorage.setItem('currentUser', JSON.stringify(this.user));
         this.router.navigate(["/"]);
       }

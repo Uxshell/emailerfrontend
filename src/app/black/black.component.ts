@@ -51,7 +51,7 @@ export class BlackComponent implements OnInit {
     this.mainForm();
     this.rest.getBlacks().subscribe((data)=>{
       this.blacks = data.listas;//importante data.[nombre definido en el backend]
-      console.log("data blacks: " + JSON.stringify(this.blacks));
+      //console.log("data blacks: " + JSON.stringify(this.blacks));
           
     });
   }
@@ -119,7 +119,7 @@ export class BlackComponent implements OnInit {
       this.BS.crearBlack(this.blackForm.value).subscribe(
       //apiService.createEmployee(this.employeeForm.value).subscribe(
         (res) => {
-          console.log('Blacks successfully created!')
+          //console.log('Blacks successfully created!')
           this.ngZone.run(() => this.router.navigateByUrl('/black'))
         }, (error) => {
           console.log(error);
@@ -206,7 +206,7 @@ export class BlackComponent implements OnInit {
           this.isCompleted = false;
           this.isFinish = true;
           //console.log(JSON.stringify(clientObj));
-          console.log("--------<<<<<<<<<<------");
+          //console.log("--------<<<<<<<<<<------");
           //break;
 
 
@@ -232,7 +232,7 @@ export class BlackComponent implements OnInit {
 
   upload() {
     
-    console.log("csvArr.length: " + this.csvArr.length);
+    //console.log("csvArr.length: " + this.csvArr.length);
     let query = {};
     //console.log("request -->: " + JSON.stringify(this.request));
 
@@ -244,8 +244,8 @@ export class BlackComponent implements OnInit {
       }
     }
     this.rest.setFilters(filterRequest).subscribe((data) => {
-      console.log("data filters: " + JSON.stringify(data));
-      console.log("complete filters.....");
+      //console.log("data filters: " + JSON.stringify(data));
+      //console.log("complete filters.....");
 
     });
 
@@ -266,12 +266,12 @@ export class BlackComponent implements OnInit {
             this.creationDate = new Date();
             //client.FECHA_CREACION = this.transformDate(this.creationDate);
           }
-          console.log("client: " + JSON.stringify([client]));
+          //console.log("client: " + JSON.stringify([client]));
 
           this.rest.addClients([client]).subscribe((data) => {
             //console.log("addData: " + JSON.stringify(data));
             if (data.success) {
-              console.log("complete.....");
+            //  console.log("complete.....");
               this.finishLoad = true;
               this.isCompleted = false;
               this.isFinish = true;

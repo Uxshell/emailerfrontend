@@ -65,7 +65,7 @@ public cargando: boolean = true;
         this.listas = data.listas;
         //var milistas:Lista[]=[]= data.data;
         //var listas = data.data;
-        console.log("data list: " + JSON.stringify(this.listas));
+        //console.log("data list: " + JSON.stringify(this.listas));
             
       });
 
@@ -82,7 +82,7 @@ public cargando: boolean = true;
   ClientsbyLista(lista:Lista){
     this.cs.getClientsbyLista(lista._id).subscribe(clientes=>{
      this.clientes =clientes;
-      console.log(this.clientes); 
+      //console.log(this.clientes); 
     });
 
   }
@@ -131,7 +131,7 @@ crearLista(lista:Lista){
       //this.res.getClients(this.request).subscribe((data) => {
       .subscribe( (resp: any) => {
         this.listas.push( resp.lista._id )
-        console.log('_id de lista antes de'+resp.lista._id);
+        //console.log('_id de lista antes de'+resp.lista._id);
         this.IDLISTA_generado=resp.lista._id.toString();
 
       })
@@ -168,7 +168,7 @@ crearLista(lista:Lista){
           for (let i = 0; i < csvTableHeader.length; i++) {
             this.headers.push(csvTableHeader[i].toLowerCase());
           }
-          console.log("headers: " + this.headers);
+          //console.log("headers: " + this.headers);
 
 
           let csvTableData = [...results.data.slice(1, results.data.length)];
@@ -201,7 +201,7 @@ crearLista(lista:Lista){
           this.isCompleted = false;
           this.isFinish = true;
           //console.log(JSON.stringify(clientObj));
-          console.log("--------<<<<<<<<<<------");
+          
           //break;
 
 
@@ -213,7 +213,7 @@ crearLista(lista:Lista){
           this.isFinish = false;
           console.error("no es CSV")
           for (let i = 0; i < results.errors.length; i++) {
-            console.log('Error Parsing CSV File: ', results.errors[i].message);
+            //console.log('Error Parsing CSV File: ', results.errors[i].message);
           }
         }
       };
@@ -227,7 +227,7 @@ crearLista(lista:Lista){
 
   upload() {
     
-    console.log("csvArr.length: " + this.csvArr.length);
+    //console.log("csvArr.length: " + this.csvArr.length);
     let query = {};
     //console.log("request -->: " + JSON.stringify(this.request));
 
@@ -239,8 +239,8 @@ crearLista(lista:Lista){
       }
     }
     this.res.setFilters(filterRequest).subscribe((data) => {
-      console.log("data filters: " + JSON.stringify(data));
-      console.log("complete filters.....");
+      //console.log("data filters: " + JSON.stringify(data));
+      //console.log("complete filters.....");
 
     });
 
@@ -250,7 +250,7 @@ crearLista(lista:Lista){
       client.BLACK= false;
 
       client.IDLISTA=this.IDLISTA_generado;
-      console.log('IDlistagenerado'+this.IDLISTA_generado);
+      //console.log('IDlistagenerado'+this.IDLISTA_generado);
       this.request = {
         query: query
       }
@@ -262,16 +262,16 @@ crearLista(lista:Lista){
             let client = this.csvArr[i];
             client.BLACK= false;
             client.IDLISTA=this.IDLISTA_generado;
-            console.log('IDlistagenerado'+this.IDLISTA_generado);
+       //     console.log('IDlistagenerado'+this.IDLISTA_generado);
             this.creationDate = new Date();
             //client.FECHA_CREACION = this.transformDate(this.creationDate);
           }
-          console.log("client: " + JSON.stringify([client]));
+          //console.log("client: " + JSON.stringify([client]));
 
           this.res.addClients([client]).subscribe((data) => {
             //console.log("addData: " + JSON.stringify(data));
             if (data.success) {
-              console.log("complete.....");
+           //   console.log("complete.....");
               this.finishLoad = true;
               this.isCompleted = false;
               this.isFinish = true;
@@ -289,7 +289,7 @@ crearLista(lista:Lista){
           //console.log("client -->: " + JSON.stringify(client._id));
           this.res.upsertClients(client).subscribe((data) => {
             if (data.success) {
-              console.log("complete upsert.....");
+          //    console.log("complete upsert.....");
               this.finishLoad = true;
               this.isCompleted = false;
               this.isFinish = true;
