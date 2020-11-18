@@ -119,6 +119,7 @@ disableSelect = new FormControl(false);
   cargarLista(){
     
     this.rest.getLists().subscribe((data)=>{
+
       this.listas = data.listas;
       //var milistas:Lista[]=[]= data.data;
       //var listas = data.data;
@@ -307,7 +308,7 @@ disableSelect = new FormControl(false);
       let clients = [];
       let client = {};
 
-//      console.log("PODEROSISIMOS CLIENTES"+data.clients);
+
       
       if (data.clients.length > 0) {//existen clientes en la BD
         let obj = data.clients;
@@ -425,7 +426,7 @@ disableSelect = new FormControl(false);
         }
       });
     }else{
-this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
+ this.rest.activeLambdaMassiveEmailer(request).subscribe((data) => {
       
   this.isProgress = false;
     //  console.log(JSON.stringify(data));

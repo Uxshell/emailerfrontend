@@ -19,15 +19,7 @@
             Correos Personalizados</a>
     </div>
     <mat-divider></mat-divider>
-    <div *ngIf="user?.rol != 'viewer'">
-        <h2 matSubheader>Automatización</h2>
-
-        <a mat-list-item routerLinkActive="list-item-active" routerLink="/automation">
-            <mat-icon>timer</mat-icon>
-            Correos Programados</a>
-      
-    </div>
-    <mat-divider></mat-divider>
+  
 
     <div *ngIf="user?.rol != 'sender'">
 
