@@ -1,21 +1,15 @@
 
 <mat-card>
     <h2>Nueva lista negra</h2>
+    <button mat-raised-button color="primary" (click)="abrirSweetAlert()" >Nueva lista</button>
     <div class="example-container">
         <form [formGroup]="blackForm" (ngSubmit)="onSubmit()">
-         <!-- <mat-checkbox [formControl]="hideRequiredControl">Hide required marker</mat-checkbox>
-          <div>
-            <label>Float label: </label>
-            <mat-radio-group [formControl]="floatLabelControl">
-              <mat-radio-button value="auto">Auto</mat-radio-button>
-              <mat-radio-button value="always">Always</mat-radio-button>
-            </mat-radio-group>
-          </div>-->
-          
+        
+          <!--
           <mat-form-field appearance="fill" >
             <input matInput placeholder="Escribe el nombre de tu lista"  formControlName="nombre" required>
           </mat-form-field> 
-      <!--
+      
           <mat-form-field appearance="fill" >
             <mat-label>Descripción</mat-label>
             <input matInput placeholder="Breve descripción de la lista" formControlName="descripcion">

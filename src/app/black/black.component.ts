@@ -6,6 +6,7 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Papa } from 'ngx-papaparse';
 import { RestService } from 'src/app/rest.service';
+
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -47,9 +48,9 @@ export class BlackComponent implements OnInit {
 
   public blacks: Black[] =[];
 
-  constructor(private BS:BlackService, public fb: FormBuilder, private datePipe: DatePipe, public rest: RestService, private router: Router, private ngZone: NgZone) {
+  constructor(private BS:BlackService, public fb: FormBuilder, private datePipe: DatePipe, public res: RestService, private router: Router, private ngZone: NgZone) {
     this.mainForm();
-    this.rest.getBlacks().subscribe((data)=>{
+    this.res.getBlacks().subscribe((data)=>{
       this.blacks = data.listas;//importante data.[nombre definido en el backend]
       //console.log("data blacks: " + JSON.stringify(this.blacks));
           
@@ -82,7 +83,27 @@ export class BlackComponent implements OnInit {
   crearLista(lista:Black){
    this.BS.crearBlack(lista);
   }
+  async abrirSweetAlert() {
+    const { value = '' } = await Swal.fire<string>({
+      title: 'Nueva lista',
+      text: 'Ingrese el nombre de la nueva lista',
+      input: 'text',
+      inputPlaceholder: 'Nombre de la lista',
+      showCancelButton: true,
+    });
+    
+    if( value.trim().length > 0 ) {
+      this.res.crearBlack( value )
+      //this.res.getClients(this.request).subscribe((data) => {
+      .subscribe( (resp: any) => {
+       // this.listas.push( resp.lista._id )
+        //console.log('_id de lista antes de'+resp.lista._id);
+        //this.IDLISTA_generado=resp.lista._id.toString();
 
+      })
+
+    }
+  }
   
   borrarLista(lista: Black){
     Swal.fire({
@@ -116,7 +137,9 @@ export class BlackComponent implements OnInit {
     if (!this.blackForm.valid) {
       return false;
     } else {
-      this.BS.crearBlack(this.blackForm.value).subscribe(
+      // this.BS.crearBlack(this.blackForm.value)
+      this.res.crearBlack( this.blackForm.value )
+     .subscribe(
       //apiService.createEmployee(this.employeeForm.value).subscribe(
         (res) => {
           //console.log('Blacks successfully created!')
@@ -243,7 +266,7 @@ export class BlackComponent implements OnInit {
         filters: this.headers
       }
     }
-    this.rest.setFilters(filterRequest).subscribe((data) => {
+    this.res.setFilters(filterRequest).subscribe((data) => {
       //console.log("data filters: " + JSON.stringify(data));
       //console.log("complete filters.....");
 
@@ -256,7 +279,7 @@ export class BlackComponent implements OnInit {
       this.request = {
         query: query
       }
-      this.rest.getClients(this.request).subscribe((data) => {
+      this.res.getClients(this.request).subscribe((data) => {
         let clients = data.clients;
         //console.log("getClients -->: " + JSON.stringify(clients));
         if (clients.length == 0) {
@@ -268,7 +291,7 @@ export class BlackComponent implements OnInit {
           }
           //console.log("client: " + JSON.stringify([client]));
 
-          this.rest.addClients([client]).subscribe((data) => {
+          this.res.addClients([client]).subscribe((data) => {
             //console.log("addData: " + JSON.stringify(data));
             if (data.success) {
             //  console.log("complete.....");
@@ -285,7 +308,7 @@ export class BlackComponent implements OnInit {
           client._id = clients[0]._id;
           //client.BLACK= true;
           //console.log("client -->: " + JSON.stringify(client._id));
-          this.rest.upsertClients(client).subscribe((data) => {
+          this.res.upsertClients(client).subscribe((data) => {
             if (data.success) {
               console.log("complete upsert.....");
               this.finishLoad = true;

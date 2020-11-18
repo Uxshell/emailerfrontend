@@ -31,7 +31,7 @@ export class BlackService {
 
       eliminarLista( _id: string ) {
 
-        const url = `${ this.endpoint }api/blacks/${_id}`;
+        const url = `${ this.endpoint }/api/blacks/${_id}`;
         return this.http.delete( url );
       }
      

@@ -66,6 +66,12 @@ endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
     .pipe(map(this.extractData));
   
   }
+  crearBlack(nombre: string):Observable<any> {
+  
+    return this.http.post<any>(this.endpoint + 'api/blacks/',{nombre})
+    .pipe(map(this.extractData));
+  
+  }
 
   getUsers(): Observable<any> {
     return this.http.get<any>(this.endpoint + 'users/getUsers')
@@ -106,6 +112,10 @@ endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
   }
   addLists(request): Observable<any> {
     return this.http.post<any>(this.endpoint + 'lists/addLists', request)
+      .pipe(map(this.extractData));
+  }
+  addBlack(request): Observable<any> {
+    return this.http.post<any>(this.endpoint + 'api/blacks/addBlack', request)
       .pipe(map(this.extractData));
   }
 
