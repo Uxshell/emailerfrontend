@@ -285,7 +285,7 @@ export class BlackComponent implements OnInit {
         if (clients.length == 0) {
           for (let i = 0; i < this.csvArr.length; i++) {
             let client = this.csvArr[i];
-            //client.BLACK= true;
+            client.BLACK= true;
             this.creationDate = new Date();
             //client.FECHA_CREACION = this.transformDate(this.creationDate);
           }
