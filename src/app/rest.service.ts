@@ -61,6 +61,7 @@ endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
     .pipe(map(this.extractData));
   }
   crearLista(nombre: string):Observable<any> {
+
   
     return this.http.post<any>(this.endpoint + 'api/listas/',{nombre})
     .pipe(map(this.extractData));
@@ -90,6 +91,13 @@ endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
   getLists(): Observable<any> {
     return this.http.get<any>(this.endpoint + 'api/listas/getListas')
     .pipe(map(this.extractData));
+  }
+  searchLista(seleccionada: string):Observable<any> {
+
+  
+    return this.http.post<any>(this.endpoint + 'api/listas/buscarLista',{seleccionada})
+    .pipe(map(this.extractData));
+  
   }
  /* removeList(req):Observable<any>{
     return this.http.delete<any>(this.endpoint + 'lists/deleteList', request)

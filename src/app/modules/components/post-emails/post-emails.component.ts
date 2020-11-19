@@ -33,6 +33,7 @@ allFruits: string[] = []; //header
 //public allFruits: any[] = [];
 public fruits: string[]=['Nombre'];
 public seleccionada: string;
+public ID_USER:string='';
 //para programados
 /*mes:number = 10;
 dia = 14;
@@ -302,13 +303,15 @@ disableSelect = new FormControl(false);
 
     //console.log("request -->: " + JSON.stringify(this.request));
     //obtenemos todos los clientes de la BD
+    this.seleccionada 
+    //this.rest.searchLista(this.seleccionada);
     this.rest.getClients(this.request).subscribe((data) => {
       let emails = [];
       let total = 0;
       let clients = [];
       let client = {};
-
-
+        
+      this.ID_USER = localStorage.getItem('userId');
       
       if (data.clients.length > 0) {//existen clientes en la BD
         let obj = data.clients;
@@ -317,7 +320,9 @@ disableSelect = new FormControl(false);
           let client = {};
           let obj = data.clients[i];
           //console.log("obj: " + JSON.stringify(obj));
-          if(obj.BLACK==false&&obj.ID_LISTA==this.seleccionada){
+
+          if(obj.BLACK==false&&obj.ID_USER==this.ID_USER){
+
           
             let email = {};
             email["email"] = obj.EMAIL;

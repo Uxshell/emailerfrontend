@@ -17,12 +17,13 @@ import { Subscription } from 'rxjs';
 })
 export class ListComponent implements OnInit {
   public IDLISTA_generado:string='';
+  public ID_USER:string='';
   public headers: any[] = [];
   
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   public currentList: Observable<Lista>;
-  user: User;
+ public user: User;
   lista: Lista;
   isCompleted: boolean = false;
   finishLoad:boolean = false;
@@ -125,15 +126,18 @@ crearLista(lista:Lista){
       inputPlaceholder: 'Nombre de la lista',
       showCancelButton: true,
     });
-    
+
+    let datoUsuario = JSON.parse(localStorage.getItem('usuario'));
+    this.creationDate = new Date();
     if( value.trim().length > 0 ) {
       this.res.crearLista( value )
+
       //this.res.getClients(this.request).subscribe((data) => {
       .subscribe( (resp: any) => {
         this.listas.push( resp.lista._id )
         //console.log('_id de lista antes de'+resp.lista._id);
         this.IDLISTA_generado=resp.lista._id.toString();
-
+        console.log(resp.lista._id.toString());
       })
 
     }
@@ -223,10 +227,11 @@ crearLista(lista:Lista){
     }
 
   }
-  
+
 
   upload() {
     
+
     //console.log("csvArr.length: " + this.csvArr.length);
     let query = {};
     //console.log("request -->: " + JSON.stringify(this.request));
@@ -243,14 +248,20 @@ crearLista(lista:Lista){
       //console.log("complete filters.....");
 
     });
+    //this.ID_USER = JSON.parse(localStorage.getItem('userId'));
+
+    this.ID_USER = localStorage.getItem('userId');
+    console.log('ID_USER recuperado con localStorage'+this.ID_USER);
+   
 
     for (let i = 0; i < this.csvArr.length; i++) {
       let client = this.csvArr[i]
       query["EMAIL"] = client.EMAIL;
       client.BLACK= false;
-
-      client.IDLISTA=this.IDLISTA_generado;
-      //console.log('IDlistagenerado'+this.IDLISTA_generado);
+      client.ID_LISTA=this.IDLISTA_generado;
+      client.USER_ID= this.ID_USER;
+      
+      //console.log('IDlistagenerado desde upload'+this.IDLISTA_generado);
       this.request = {
         query: query
       }
@@ -261,9 +272,10 @@ crearLista(lista:Lista){
           for (let i = 0; i < this.csvArr.length; i++) {
             let client = this.csvArr[i];
             client.BLACK= false;
-            client.IDLISTA=this.IDLISTA_generado;
-       //     console.log('IDlistagenerado'+this.IDLISTA_generado);
-            this.creationDate = new Date();
+            client.ID_LISTA=this.IDLISTA_generado;
+            client.USER_ID= this.ID_USER;
+       
+            
             //client.FECHA_CREACION = this.transformDate(this.creationDate);
           }
           //console.log("client: " + JSON.stringify([client]));

@@ -27,6 +27,9 @@ export class LoginComponent implements OnInit {
   constructor(public rest: RestService, private router: Router, private dialog: MatDialog) { 
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser'))); 
     this.currentUser = this.currentUserSubject.asObservable();
+    
+
+  
     this.user = this.currentUserSubject.value;
 
     this.rest.getUsers().subscribe((data)=>{
@@ -63,6 +66,7 @@ export class LoginComponent implements OnInit {
       password: this.password
     }
 
+
     this.rest.login(this.request).subscribe((data) => {
       //console.log("data..." + JSON.stringify(data));
       if (data.response.success) {
@@ -71,8 +75,10 @@ export class LoginComponent implements OnInit {
       this.user.token = data.response.token;
         this.user.rol = data.response.user.rol;
         this.user.userId= data.response.user.userId;
-        //console.log('USER ID de usuario logueado '+data.response.user.userId);
+        console.log('USER ID de usuario logueado '+data.response.user.userId);
         localStorage.setItem('currentUser', JSON.stringify(this.user));
+        
+        localStorage.setItem('userId', JSON.stringify(this.user.userId));
         this.router.navigate(["/"]);
       }
       else {
