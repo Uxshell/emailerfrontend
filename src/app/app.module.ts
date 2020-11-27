@@ -11,6 +11,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { HeaderComponent } from './shared/components/header/header.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { MaterialModule } from './material.module';
+import { ChartsModule } from 'ng2-charts';
+
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 //import {RegisterComponent} from './auth/register/register.component';
@@ -40,7 +42,7 @@ import { AutomationComponent } from './modules/components/automation/automation.
 import { ListComponent } from './list/list.component';
 import { BlackComponent } from './black/black.component';
 
-
+import {CampaignComponent} from './campaigns/campaign.component'
  
 const appRoutes: Routes = [
   {
@@ -71,6 +73,10 @@ const appRoutes: Routes = [
     },{
       path: 'black',
       component: BlackComponent
+    }
+    ,{
+      path: 'campaign',
+      component: CampaignComponent
     }]
   },
   { path: 'login', component: LoginComponent },
@@ -102,7 +108,7 @@ const appRoutes: Routes = [
     AutomationComponent,
     ListComponent,
     BlackComponent,
-    
+    CampaignComponent
     
     ],
   imports: [
@@ -114,9 +120,12 @@ const appRoutes: Routes = [
     MaterialModule,
     HighchartsChartModule,
     FlexLayoutModule,
+    ChartsModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+
+
     RouterModule.forRoot(appRoutes)
   ],
   exports:[MatDatepickerModule, 

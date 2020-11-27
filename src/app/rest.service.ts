@@ -92,6 +92,10 @@ endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
     return this.http.get<any>(this.endpoint + 'api/listas/getListas')
     .pipe(map(this.extractData));
   }
+  getCampanias():Observable<any>{
+    return this.http.get<any>('' + 'http://localhost:3000/campaigns/getCampaigns')
+    .pipe(map(this.extractData));
+  }
   searchLista(seleccionada: string):Observable<any> {
 
   

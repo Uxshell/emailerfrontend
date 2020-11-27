@@ -1,9 +1,12 @@
-export class Lista {
+export class Campaign {
     constructor(
             public _id: string,
             public nombre: string,
             public fechaCreacion: string,
-            public totalClientes: string
+            public totalEmails: string,
+            public deliverys: string,
+            public rejects:string,
+            public bounces:string
     ){}
     
    

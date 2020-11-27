@@ -49,6 +49,7 @@ public cargando: boolean = true;
 
   
   
+  
   name: string;
   position: number;
   weight: number;

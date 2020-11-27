@@ -18,6 +18,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {Lista} from '../../../_models/listaModel';
 import { MatListItem } from '@angular/material/list';
 import { faHorseHead } from '@fortawesome/free-solid-svg-icons';
+import { Campaign } from 'src/app/_models/campaignModel';
 
 
 @Component({
@@ -34,6 +35,7 @@ allFruits: string[] = []; //header
 public fruits: string[]=['Nombre'];
 public seleccionada: string;
 public ID_USER:string='';
+campania: Campaign;
 //para programados
 /*mes:number = 10;
 dia = 14;
@@ -321,8 +323,8 @@ disableSelect = new FormControl(false);
           let obj = data.clients[i];
           //console.log("obj: " + JSON.stringify(obj));
 
-          if(obj.BLACK==false&&obj.ID_USER==this.ID_USER){
-
+          if(obj.BLACK==false &&obj.USER_ID==this.ID_USER){
+            //falta lista
           
             let email = {};
             email["email"] = obj.EMAIL;
@@ -358,7 +360,7 @@ disableSelect = new FormControl(false);
     let request = {
       name: this.labelInput.value,
       creationDate: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
-      filters: JSON.stringify(query),
+   //   filters: JSON.stringify(query),
       sentEmails: emails.length,
       subject: this.subjectInput.value,
 
@@ -366,7 +368,10 @@ disableSelect = new FormControl(false);
 
 
     this.rest.createCampaign(request).subscribe((data) => {
-      //console.log("campaña: " + data.campaignId);
+      console.log("campaña: " + data.campaignId);
+      this.campania._id = data.campaignId;
+      localStorage.setItem('campaniaID', JSON.stringify(this.campania._id));
+   //  this.user.userId= data.response.campaign.userId;
     });
   }
 

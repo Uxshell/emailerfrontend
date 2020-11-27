@@ -24,6 +24,10 @@
     <div *ngIf="user?.rol != 'sender'">
 
         <h2 matSubheader>Estadisticas de Correos</h2>
+        <a mat-list-item routerLinkActive="list-item-active" routerLink="/campaign">
+            <mat-icon>assessment</mat-icon>
+            Campañas
+        </a>
 
         <a mat-list-item routerLinkActive="list-item-active" routerLink="/statistics">
             <mat-icon>assessment</mat-icon>
