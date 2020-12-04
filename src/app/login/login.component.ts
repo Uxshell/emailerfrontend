@@ -79,6 +79,7 @@ export class LoginComponent implements OnInit {
         console.log('USER ID de usuario logueado '+data.response.user.userId);
         localStorage.setItem('currentUser', JSON.stringify(this.user));
         
+       
         localStorage.setItem('userId', JSON.stringify(this.user.userId));
         this.router.navigate(["/"]);
       }

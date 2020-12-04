@@ -89,7 +89,7 @@ disableSelect = new FormControl(false);
   type: any;
   csvArr = [];
   csvActive = false;
-
+mirequest={};
   public records: any[] = [];
   @ViewChild('csvReader') csvReader: any;
 
@@ -120,8 +120,13 @@ disableSelect = new FormControl(false);
   }
 
   cargarLista(){
+    this.ID_USER = localStorage.getItem('userId');
+    console.log('ID_USER recuperado con localStorage'+this.ID_USER);
+
     
-    this.rest.getLists().subscribe((data)=>{
+    var userId = this.ID_USER.replace(/['"]+/g, '');
+   
+    this.rest.getLists(userId).subscribe((data)=>{
 
       this.listas = data.listas;
       //var milistas:Lista[]=[]= data.data;

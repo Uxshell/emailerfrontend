@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import {FormsModule} from '@angular/forms';
 //import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ManagerComponent } from './manager/manager.component';
@@ -41,7 +41,7 @@ import { CustomStatisticsComponent } from './modules/components/custom-statistic
 import { AutomationComponent } from './modules/components/automation/automation.component';
 import { ListComponent } from './list/list.component';
 import { BlackComponent } from './black/black.component';
-
+import {CompanyComponent} from './companys/company.component';
 import {CampaignComponent} from './campaigns/campaign.component'
  
 const appRoutes: Routes = [
@@ -73,6 +73,10 @@ const appRoutes: Routes = [
     },{
       path: 'black',
       component: BlackComponent
+    }
+    ,{
+      path: 'company',
+      component: CompanyComponent
     }
     ,{
       path: 'campaign',
@@ -108,7 +112,8 @@ const appRoutes: Routes = [
     AutomationComponent,
     ListComponent,
     BlackComponent,
-    CampaignComponent
+    CampaignComponent,
+    CompanyComponent
     
     ],
   imports: [
@@ -124,7 +129,7 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-
+    FormsModule,
 
     RouterModule.forRoot(appRoutes)
   ],

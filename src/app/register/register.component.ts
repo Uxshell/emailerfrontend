@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../_services/UserService';
 import { RestService } from '../rest.service';
+import {Company} from '../_models/companyModel';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/app/_models/user';
 import { Router } from '@angular/router';
@@ -23,9 +24,11 @@ export class RegisterComponent implements OnInit {
     email: string;
     password: string;
     response = {};
+    company:string;
     //selected = "admin";
     selected: string;
-
+    companySelect: string;
+    public c: Company[] =[];
 
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
@@ -48,7 +51,9 @@ export class RegisterComponent implements OnInit {
             this.router.navigate(['/']);
         }
     }
-
+    registrationForm = this.formBuilder.group({
+        cityName: ['', [Validators.required]]
+      })
     ngOnInit() {
         if (this.user === null) {
             this.router.navigate(['login']);
@@ -60,9 +65,25 @@ export class RegisterComponent implements OnInit {
             //email: ['', Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")],
             email: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            rol: ['', Validators.required]
+            rol: ['', Validators.required],
+            company:[''],
         });//*/
+        
+        this.cargarLista();
     }
+    get cityName() {
+        return this.registrationForm.get('cityName');
+        
+      }
+    cargarLista(){
+        let query = {};       
+        this.rest.getCompanys().subscribe((data)=>{
+           // this.res.getLists(this.request).subscribe((data)=>{
+            this.c = data.cs;
+                
+          });
+          
+      }
 
     async register() {
         //console.log("DATA RECIBIDA EN REGISTER"+this.email+''+this.password);
@@ -94,7 +115,8 @@ export class RegisterComponent implements OnInit {
                 this.request = {
                     email: this.email,
                     password: this.password,
-                    rol: this.selected
+                    rol: this.selected,
+                   company: this.company,
                 }
                 this.loading = true;
                 //console.log("request..." + JSON.stringify(this.request));

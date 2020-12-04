@@ -1,0 +1,12 @@
+<h1>Empresas, clientes</h1>
+<mat-card>
+    <button mat-raised-button color="primary" (click)="abrirSweetAlert()" >Registrar nueva</button>
+</mat-card>
+<mat-selection-list #shoes [multiple]="false">
+  <mat-list-option *ngFor="let shoe of c" [value]="shoe">
+    {{shoe.nombre}}
+  </mat-list-option>
+</mat-selection-list>
+
+
+

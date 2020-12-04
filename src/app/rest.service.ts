@@ -7,8 +7,8 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RestService {
-endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
-  //  endpoint = 'ttp://ec2-18-234-63-154.compute-1.amazonaws.com/';
+//endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
+endpoint = 'http://localhost:3000/';
   
 
   constructor(private http: HttpClient) {
@@ -60,13 +60,15 @@ endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
     return this.http.post<any>(this.endpoint + 'users/createAdminUser',{})
     .pipe(map(this.extractData));
   }
-  crearLista(nombre: string):Observable<any> {
+  
+  crearLista(req):Observable<any> {
 
   
-    return this.http.post<any>(this.endpoint + 'api/listas/',{nombre})
+    return this.http.post<any>(this.endpoint + 'api/listas/',req)
     .pipe(map(this.extractData));
   
   }
+
   crearBlack(nombre: string):Observable<any> {
   
     return this.http.post<any>(this.endpoint + 'api/blacks/',{nombre})
@@ -83,15 +85,31 @@ endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
     return this.http.post<any>(this.endpoint + 'users/getUserByEmail', request, { headers: headers })
     .pipe(map(this.extractData));
   }
+  getCompanys(): Observable<any> {
+    return this.http.get<any>('http://localhost:3000/api/companys/getCompanys')
+    .pipe(map(this.extractData));
+  }
 
+  crearCompany(nombre: string):Observable<any> {
+  
+    return this.http.post<any>( 'http://localhost:3000/api/companys/',{nombre})
+    .pipe(map(this.extractData));
+  
+  }
   getClients(request): Observable<any> {
     return this.http.post<any>(this.endpoint + 'clients/getClients', request)
     .pipe(map(this.extractData));
   }
-  getLists(): Observable<any> {
-    return this.http.get<any>(this.endpoint + 'api/listas/getListas')
+  getLists(userId:string): Observable<any> {
+    //    return this.http.get<any>(this.endpoint + 'api/listas/getListas')
+    return this.http.post<any>('http://localhost:3000/api/listas/getListas', {userId})
     .pipe(map(this.extractData));
   }
+  getListsPro(request): Observable<any> {
+    //    return this.http.get<any>(this.endpoint + 'api/listas/getListas')
+    return this.http.post<any>('http://localhost:3000/api/listas/getListas', request)
+        .pipe(map(this.extractData));
+      }
   getCampanias():Observable<any>{
     return this.http.get<any>('' + 'http://localhost:3000/campaigns/getCampaigns')
     .pipe(map(this.extractData));

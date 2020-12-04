@@ -3,7 +3,8 @@ export class Lista {
             public _id: string,
             public nombre: string,
             public fechaCreacion: string,
-            public totalClientes: string
+            public totalClientes: string,
+            public userId: string,
     ){}
     
    

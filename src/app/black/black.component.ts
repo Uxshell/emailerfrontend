@@ -52,6 +52,7 @@ export class BlackComponent implements OnInit {
     this.mainForm();
     this.res.getBlacks().subscribe((data)=>{
       this.blacks = data.listas;//importante data.[nombre definido en el backend]
+      
       //console.log("data blacks: " + JSON.stringify(this.blacks));
           
     });
@@ -94,6 +95,7 @@ export class BlackComponent implements OnInit {
     
     if( value.trim().length > 0 ) {
       this.res.crearBlack( value )
+      
       //this.res.getClients(this.request).subscribe((data) => {
       .subscribe( (resp: any) => {
        // this.listas.push( resp.lista._id )

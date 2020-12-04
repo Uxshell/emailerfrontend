@@ -10,6 +10,7 @@ import {Cliente} from '../_models/clienteModel';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
+import {CompanyService} from '../_services/companyService';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -17,9 +18,9 @@ import { Subscription } from 'rxjs';
 })
 export class ListComponent implements OnInit {
   public IDLISTA_generado:string='';
-  public ID_USER:string='';
+  public ID_USER:string;
   public headers: any[] = [];
-  
+  addresses = [];
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   public currentList: Observable<Lista>;
@@ -37,17 +38,23 @@ export class ListComponent implements OnInit {
   emailsArr = [];
   request = {};
   creationDate: any;
+  l:Lista;
+  mirequest = {};
+
     panelOpenState = false;
 
 public listas: Lista[] =[];
+public listasFilter: Lista[] =[];
 public clientes: Cliente[]= [];
 public cargando: boolean = true;
 
-  constructor(private listService: ListaService, private cs: ClienteService,public dialog: MatDialog, public res:RestService) { 
+  constructor(private addressService: CompanyService, private listService: ListaService, private cs: ClienteService,public dialog: MatDialog, public res:RestService) { 
    this.cargarLista();
   }
+  filterPost ='';
 
   
+
   
   
   name: string;
@@ -57,20 +64,32 @@ public cargando: boolean = true;
 
   
   ngOnInit(): void {
-   //this.cargarLista();
-    
+   this.cargarLista();
+   this.addressService.getAddresses().subscribe((address) => {
+    this.addresses = address;
+    console.log( this.addresses);
+  });
   }
-  
+ 
   cargarLista(){
+    let query = {};
+    this.ID_USER = localStorage.getItem('userId');
+    var userId = this.ID_USER.replace(/['"]+/g, '');
+    console.log('ID_USER recuperado con localStorage'+this.ID_USER);
+        
       this.cargando=true;
-      this.res.getLists().subscribe((data)=>{
+      this.res.getLists(userId).subscribe((data)=>{
+       // this.res.getLists(this.request).subscribe((data)=>{
         this.listas = data.listas;
         //var milistas:Lista[]=[]= data.data;
         //var listas = data.data;
-        //console.log("data list: " + JSON.stringify(this.listas));
+      
+        console.log("data list: " + JSON.stringify(this.listas));
+        //this.listasFilter= this.listas.filter(l => l.userId === userId);
+        console.log("data listasFilter: " + JSON.stringify(this.listasFilter));
             
       });
-
+      
     /*this.listService.cargarListas().subscribe((listas)=>{
 
       
@@ -127,11 +146,17 @@ crearLista(lista:Lista){
       inputPlaceholder: 'Nombre de la lista',
       showCancelButton: true,
     });
-
-    let datoUsuario = JSON.parse(localStorage.getItem('usuario'));
+    
+    this.ID_USER = localStorage.getItem('userId');
+    var userId = this.ID_USER.replace(/['"]+/g, '');
+    let req={
+      nombre:value,
+      userId: userId
+    }
+   // let datoUsuario = JSON.parse(localStorage.getItem('usuario'));
     this.creationDate = new Date();
     if( value.trim().length > 0 ) {
-      this.res.crearLista( value )
+      this.res.crearLista( req )
 
       //this.res.getClients(this.request).subscribe((data) => {
       .subscribe( (resp: any) => {
@@ -251,8 +276,7 @@ crearLista(lista:Lista){
     });
     //this.ID_USER = JSON.parse(localStorage.getItem('userId'));
 
-    this.ID_USER = localStorage.getItem('userId');
-    console.log('ID_USER recuperado con localStorage'+this.ID_USER);
+   
    
 
     for (let i = 0; i < this.csvArr.length; i++) {

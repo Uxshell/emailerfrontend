@@ -33,6 +33,7 @@ export class ListaService {
         const url = `${ this.endpoint }/api/listas/borrarLista/${_id}`;
         return this.http.delete( url );
       }
+      
      
 
 }
