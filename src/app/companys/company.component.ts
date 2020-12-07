@@ -34,7 +34,6 @@ export class CompanyComponent implements OnInit {
    cargarLista(){
     let query = {};
     
-    
         
       
       this.res.getCompanys().subscribe((data)=>{

@@ -24,8 +24,8 @@
 
             <mat-form-field class="button-space" required>
                 <mat-label>Compañia cliente</mat-label>
-                <mat-select >
-                    <mat-option  *ngFor="let co of c" [ngValue]="co">{{co.nombre}}</mat-option>
+                <mat-select required [(value)]="companySelect">
+                    <mat-option   *ngFor="let co of c" [value]="co.nombre">{{co.nombre}}</mat-option>
                 </mat-select>
             </mat-form-field>
         </mat-card-content>

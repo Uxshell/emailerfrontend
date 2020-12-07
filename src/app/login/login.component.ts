@@ -76,11 +76,15 @@ export class LoginComponent implements OnInit {
       this.user.token = data.response.token;
         this.user.rol = data.response.user.rol;
         this.user.userId= data.response.user.userId;
+        this.user.company= data.response.user.company;
+        
         console.log('USER ID de usuario logueado '+data.response.user.userId);
         localStorage.setItem('currentUser', JSON.stringify(this.user));
         
        
         localStorage.setItem('userId', JSON.stringify(this.user.userId));
+        localStorage.setItem('company', JSON.stringify(this.user.company));
+        console.log("company a la que pertence "+data.response.user.company);
         this.router.navigate(["/"]);
       }
       else {

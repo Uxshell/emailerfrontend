@@ -97,6 +97,7 @@ endpoint = 'http://localhost:3000/';
   
   }
   getClients(request): Observable<any> {
+    
     return this.http.post<any>(this.endpoint + 'clients/getClients', request)
     .pipe(map(this.extractData));
   }

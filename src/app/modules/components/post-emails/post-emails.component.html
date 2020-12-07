@@ -11,9 +11,12 @@
         <mat-divider></mat-divider>
     </mat-card>
     <mat-card fxFlex="25%">
+        
         <mat-form-field appearance="fill">
             <mat-label>Lista</mat-label>
             <mat-select [(value)]="seleccionada">
+
+
               <mat-option *ngFor="let food of listas" [value]="food.nombre">
                 {{food.nombre}}
               </mat-option>

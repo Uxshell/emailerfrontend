@@ -46,16 +46,18 @@ export class CampaignComponent implements OnInit {
   public pieChartPlugins = [];
  public miC: Campaign;
  public enviados;
-
+ public ID_USER:string='';
+public MYCOMPANY:string='';
+request={};
   hidden = false;
   displayedColumns: string[] = ['name', 'weight'];
   dataSource = ELEMENT_DATA;
   toggleBadgeVisibility() {
     this.hidden = !this.hidden;
   }
-
+ l:Campaign;
   public campanias: Campaign[] =[];
-
+  public campaignsFilter: Campaign[] =[];
   constructor(private listService: ListaService, private cs: ClienteService,public dialog: MatDialog, public res:RestService) { 
     this.cargandoC();
     monkeyPatchChartJsTooltip();
@@ -69,11 +71,27 @@ export class CampaignComponent implements OnInit {
 
    cargandoC(){
     //this.cargando=true;
+    
+    
+    this.ID_USER = localStorage.getItem('userId');
+    this.MYCOMPANY = localStorage.getItem('company');
+    
+    
+    
+    var mycompany = this.MYCOMPANY.replace(/['"]+/g, '');
+    var userId= this.ID_USER.replace(/['"]+/g, '');
+
+    this.request = {
+      company: mycompany,
+      userId: userId
+    }
+    
     this.res.getCampanias().subscribe((data)=>{
       this.campanias = data.campaigns;
       console.log(this.campanias);
-      for(let i=0;i<this.campanias.length; i++){
-        this.miC= this.campanias[i];
+       this.campaignsFilter= this.campanias.filter(l => l.idCompany === mycompany);
+      for(let i=0;i<this.campaignsFilter.length; i++){
+        this.miC= this.campaignsFilter[i];
          this.enviados= this.miC.deliverys
         console.log('enviados'+this.enviados);
         this.pieChartData=[this.enviados,2,10];

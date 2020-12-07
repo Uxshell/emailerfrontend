@@ -6,7 +6,8 @@ export class Campaign {
             public totalEmails: string,
             public deliverys: string,
             public rejects:string,
-            public bounces:string
+            public bounces:string,
+            public idCompany:string
     ){}
     
    

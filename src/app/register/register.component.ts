@@ -87,6 +87,7 @@ export class RegisterComponent implements OnInit {
 
     async register() {
         //console.log("DATA RECIBIDA EN REGISTER"+this.email+''+this.password);
+        console.log("companySelect:"+this.companySelect);
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
         // redirect to home if already logged in
@@ -116,7 +117,7 @@ export class RegisterComponent implements OnInit {
                     email: this.email,
                     password: this.password,
                     rol: this.selected,
-                   company: this.company,
+                   company: this.companySelect,
                 }
                 this.loading = true;
                 //console.log("request..." + JSON.stringify(this.request));

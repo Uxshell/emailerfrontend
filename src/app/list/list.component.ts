@@ -108,6 +108,7 @@ public cargando: boolean = true;
 
   }
   
+  
   borrarLista(lista: Lista){
     Swal.fire({
       title: '¿Borrar lista?',

@@ -5,4 +5,5 @@ export class User {
     password: string;
     token: string;
     rol:string;
+    company:string;
 }

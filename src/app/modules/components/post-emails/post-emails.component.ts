@@ -35,6 +35,7 @@ allFruits: string[] = []; //header
 public fruits: string[]=['Nombre'];
 public seleccionada: string;
 public ID_USER:string='';
+
 campania: Campaign;
 //para programados
 /*mes:number = 10;
@@ -89,6 +90,7 @@ disableSelect = new FormControl(false);
   type: any;
   csvArr = [];
   csvActive = false;
+  listaFind:Lista;
 mirequest={};
   public records: any[] = [];
   @ViewChild('csvReader') csvReader: any;
@@ -121,10 +123,13 @@ mirequest={};
 
   cargarLista(){
     this.ID_USER = localStorage.getItem('userId');
+    
+    
     console.log('ID_USER recuperado con localStorage'+this.ID_USER);
-
+   
     
     var userId = this.ID_USER.replace(/['"]+/g, '');
+    
    
     this.rest.getLists(userId).subscribe((data)=>{
 
@@ -318,8 +323,10 @@ mirequest={};
       let clients = [];
       let client = {};
         
-      this.ID_USER = localStorage.getItem('userId');
-      
+    
+      console.log('valor de lista seleccionada'+this.seleccionada);
+      var select = this.seleccionada.replace(/['"]+/g, '');
+      this.getIdLista(select);
       if (data.clients.length > 0) {//existen clientes en la BD
         let obj = data.clients;
         total = data.total;
@@ -327,7 +334,7 @@ mirequest={};
           let client = {};
           let obj = data.clients[i];
           //console.log("obj: " + JSON.stringify(obj));
-
+            //obj.ID_LISTA==''
           if(obj.BLACK==false &&obj.USER_ID==this.ID_USER){
             //falta lista
           
@@ -348,6 +355,7 @@ mirequest={};
         //this.sendEmail(emails);
         
         this.sendEmail(clients, emails);
+        
         this.createCampaig(query, emails);
         //*/
 
@@ -360,7 +368,13 @@ mirequest={};
     });
 
   }
+  getIdLista(request){
+    this.rest.searchLista(request).subscribe((data) => {
+      this.listaFind= data.lista;
+      console.log('idLista obtenido'+JSON.stringify(this.listaFind));
+    });
 
+  }
   createCampaig(query, emails) {
     let request = {
       name: this.labelInput.value,

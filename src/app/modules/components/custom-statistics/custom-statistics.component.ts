@@ -123,9 +123,10 @@ export class CustomStatisticsComponent implements OnInit {
       let body = JSON.parse(data.response);
       let newBody = JSON.parse(JSON.stringify(body));
       if (newBody["body"]["error"]) {
+
         console.log("hay error");
         this.isProgress = false;
-        this.showAlert("Error de conexión. Intentarlo más tarde");
+        this.showAlert("No existen registros en CloudWatch");
 
       }
       else {
