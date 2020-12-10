@@ -140,6 +140,8 @@ crearLista(lista:Lista){
 }
 
   async abrirSweetAlert() {
+    let hoy= new Date();
+    
     const { value = '' } = await Swal.fire<string>({
       title: 'Nueva lista',
       text: 'Ingrese el nombre de la nueva lista',
@@ -152,7 +154,8 @@ crearLista(lista:Lista){
     var userId = this.ID_USER.replace(/['"]+/g, '');
     let req={
       nombre:value,
-      userId: userId
+      userId: userId,
+      fechaCreacion: hoy,
     }
    // let datoUsuario = JSON.parse(localStorage.getItem('usuario'));
     this.creationDate = new Date();
@@ -258,10 +261,8 @@ crearLista(lista:Lista){
 
   upload() {
     
-
-    //console.log("csvArr.length: " + this.csvArr.length);
     let query = {};
-    //console.log("request -->: " + JSON.stringify(this.request));
+    
 
     //upload filters in DB
     let filterRequest = {

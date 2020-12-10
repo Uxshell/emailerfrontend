@@ -96,14 +96,35 @@ endpoint = 'http://localhost:3000/';
     .pipe(map(this.extractData));
   
   }
+  
   getClients(request): Observable<any> {
     
     return this.http.post<any>(this.endpoint + 'clients/getClients', request)
     .pipe(map(this.extractData));
   }
   getLists(userId:string): Observable<any> {
+
     //    return this.http.get<any>(this.endpoint + 'api/listas/getListas')
     return this.http.post<any>('http://localhost:3000/api/listas/getListas', {userId})
+    .pipe(map(this.extractData));
+  }
+  getEmailsSends(IDCampaign:string): Observable<any> {
+
+    //    return this.http.get<any>(this.endpoint + 'api/listas/getListas')
+    return this.http.post<any>('http://localhost:3000/api/companys/getEmailsSends', {IDCampaign})
+    .pipe(map(this.extractData));
+  }
+  getEmailsDeliverys(IDCampaign:string): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/api/companys/getEmailsDeliverys', {IDCampaign})
+    .pipe(map(this.extractData));
+  }
+  getEmailsRejects(IDCampaign:string): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/api/companys/getEmailsRejects', {IDCampaign})
+    .pipe(map(this.extractData));
+  }
+
+  getEmailsOpens(IDCampaign:string): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/api/companys/getEmailsOpens', {IDCampaign})
     .pipe(map(this.extractData));
   }
   getListsPro(request): Observable<any> {
@@ -161,7 +182,13 @@ endpoint = 'http://localhost:3000/';
   }
 
   createCampaign(request): Observable<any> {
+    
     return this.http.post<any>(this.endpoint + 'campaigns/createCampaign', request)
+      .pipe(map(this.extractData));
+  }
+  updateCampaign(request): Observable<any> {
+    
+    return this.http.post<any>(this.endpoint + 'campaigns/updateCampaign', request)
       .pipe(map(this.extractData));
   }
 

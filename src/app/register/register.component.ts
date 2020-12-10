@@ -100,6 +100,7 @@ export class RegisterComponent implements OnInit {
                 'Content-Type': 'application/json',
                 'access-token': this.user.token
             });
+            
             this.request = {
                 email: this.email
             }

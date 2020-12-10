@@ -4,10 +4,11 @@ export class Campaign {
             public nombre: string,
             public fechaCreacion: string,
             public totalEmails: string,
-            public deliverys: string,
-            public rejects:string,
-            public bounces:string,
-            public idCompany:string
+            public countDeliverys:Int32Array,
+            public countSends:Int32Array,
+            public countRejects:Int32Array,
+            public countOpens:Int32Array,
+            public companyId:string
     ){}
     
    

@@ -90,6 +90,8 @@ disableSelect = new FormControl(false);
   type: any;
   csvArr = [];
   csvActive = false;
+  ID_CAMPAIGN='';
+  IDCNew;
   listaFind:Lista;
 mirequest={};
   public records: any[] = [];
@@ -120,6 +122,24 @@ mirequest={};
     }
   
   }
+  async createCampaigPRO(request) {
+    let it = this;
+  
+    return new Promise(async function (resolve, reject) {
+        it.rest.createCampaign(request).subscribe((data) => {
+
+          //console.log("campaña desde Promise: " + data.campaignId);
+          
+         // this.ID_CAMPAIGN =data.campaignId;
+          //console.log('ID_CAMPAIGN desde Data'+this.ID_CAMPAIGN);
+          resolve(data.campaignId);
+          //localStorage.setItem('campaniaID', JSON.stringify(this.campania._id));
+       //  this.user.userId= data.response.campaign.userId;
+        });
+      
+
+    });
+}
 
   cargarLista(){
     this.ID_USER = localStorage.getItem('userId');
@@ -354,9 +374,13 @@ mirequest={};
         //console.log("emails Arr: " + JSON.stringify(emails));
         //this.sendEmail(emails);
         
+        //let userDB = await this.getUserByEmail(this.request, headers);
+        //
+        //let cc = this.getIDCampaign();
+
         this.sendEmail(clients, emails);
         
-        this.createCampaig(query, emails);
+        
         //*/
 
 
@@ -368,6 +392,8 @@ mirequest={};
     });
 
   }
+  
+
   getIdLista(request){
     this.rest.searchLista(request).subscribe((data) => {
       this.listaFind= data.lista;
@@ -375,42 +401,85 @@ mirequest={};
     });
 
   }
+  
+  async getUserByEmail(request, headers) {
+    let it = this;
+    return new Promise(async function (resolve, reject) {
+        it.rest.getUserByEmail(request, headers).subscribe((data) => {
+       //     console.log("RESPONSE..." + JSON.stringify(data));
+            resolve(data);
+        });
+    });
+}
+
+
   createCampaig(query, emails) {
     let request = {
       name: this.labelInput.value,
       creationDate: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
    //   filters: JSON.stringify(query),
-      sentEmails: emails.length,
+    //  sentEmails: emails.length,
       subject: this.subjectInput.value,
+
 
     };
 
 
     this.rest.createCampaign(request).subscribe((data) => {
+
       console.log("campaña: " + data.campaignId);
-      this.campania._id = data.campaignId;
+      
+      this.ID_CAMPAIGN =data.campaignId;
+      this.IDCNew = this.ID_CAMPAIGN.replace(/['"]+/g, '');
+      console.log('ID_CAMPAIGN desde Data'+this.ID_CAMPAIGN);
       localStorage.setItem('campaniaID', JSON.stringify(this.campania._id));
    //  this.user.userId= data.response.campaign.userId;
     });
+    return this.IDCNew;
   }
 
 
-  sendEmail(clients, emails) {
+  async sendEmail(clients, emails) {
     //let cron = require('node-cron');
     let html = this.fileContent;
     let subject = this.subjectInput.value;
     let tagsforHtml = this.fruits;
     let fechaparaEnvio = this.fechaEnvio;
     let programado = this.schedule;
-    //console.log("Valor de programado"+programado);
-    //let it = this;
+    let companyRe=localStorage.getItem('company');
+    var companyParse = companyRe.replace(/['"]+/g, '');
+    let req = {
+      name: this.labelInput.value,
+      creationDate: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
+      sentEmails: emails.length,
+      companyId: companyParse,
+      countSends:0,
+      countDeliverys:0,
+      countRejects:0,
+      countOpens:0,
+      countClicks:0,
+
+
+    };
+
+    let c  =await this.createCampaigPRO(req);
+    console.log("Valor de ID_CAMPAIGN en sendEmail"+c);
+    var cString= JSON.stringify(c);
+    localStorage.setItem('IDCampaign', JSON.stringify(c));
+    let newc =cString.replace(/['"]+/g, '');
+    console.log('cString en bruto'+cString);
+    let ID_C = localStorage.getItem('IDCampaign');
+    
+    console.log('ID campaign desde localStorage'+ID_C);
+  
     let request = {
       "subject": subject,
       "clients": clients,
       "html": html,
       "tags": tagsforHtml,
       "fecha": fechaparaEnvio,
-      "scheduleDef": programado
+      "scheduleDef": programado,
+      "campaign": newc,
     }
     if(programado == true){
       const dialoSchedule = new MatDialogConfig();
@@ -425,6 +494,7 @@ mirequest={};
         this.isProgress = false;
         if (result == 'confirm') {
           this.ngOnInit();
+          
          // this.router.navigate(["/"]);
         }
       })
@@ -450,8 +520,8 @@ mirequest={};
           })
         }
         else {
-          console.error("ocurrio un error en el envio")
-          this.showAlert("Error", "ocurrio un error en el envio");
+        //  console.error("ocurrio un error en el envio")
+          //this.showAlert("Error", "ocurrio un error en el envio");
         }
       });
     }else{
@@ -484,7 +554,7 @@ mirequest={};
       }
     });
   }
-}
+};
 
   showAlert(tittle, message) {
     const dialogConfig = new MatDialogConfig();
@@ -586,15 +656,7 @@ mirequest={};
     var y: number = +splitted[0];
     var d: number = +splitted[2];
     m = m -1;
-    //console.log("YEAR"+year);
-    //let dateForm = y+", "+m+", "+this.dia+", "+this.hora+", "+this.minutos+", "+this.segundos ;
-    //let dateForm = "" + splitted[0] + "-" + splitted[1] + "-" + y;
 
-    //console.log("dateForm:"+dateForm);
-   //let dateForm = "" + splitted[0] + "," + splitted[1] + ", " + m+ ", " +12+ "," + 33+ ","+ 0;
-   //let dateForm = ""+y+", "+ m + ", " + 14 +", "+ 12+", " + 34+", "+ 0;
-   //this.fechaEnvio = new Date(dateForm);
-   
   this.fechaEnvio = new Date(y, m, d, this.doh, this.dom, 0);
     //console.log("fechaEnvio"+this.fechaEnvio);
   }

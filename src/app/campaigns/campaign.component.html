@@ -3,50 +3,23 @@
 
 
 <mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile *ngFor="let c of campaignsFilter " >
+  <mat-grid-tile *ngFor="let c of campaignsFilter2 " >
        <mat-card fxFlex="100% ">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
       
       <mat-card-title style="font-size: medium;">{{c.name}}</mat-card-title>
       <mat-card-subtitle>Creada: {{c.creationDate}}</mat-card-subtitle>
-      <mat-card-subtitle>Enviada: {{c.fechaEnvio}}</mat-card-subtitle>
+      <mat-card-subtitle>Sends: {{c.sentEmails}}</mat-card-subtitle>
      
     </mat-card-header>
   
 
-    <!--<div fxLayout="row " fxLayoutAlign="space-between center " fxLayoutGap="10px "></div>-->
-   
-          
-          <h4>Email Enviados: {{c.sentEmails}}</h4>
-         <!-- <h4>Delivery: {{c.deliverys}}</h4>
-          <h4>Reject: {{c.deliverys}}</h4>-->
-   
-
-
-    <!-- <mat-card fxFlex="10% ">
-          <app-card-graph label="Entregados" ></app-card-graph>
-      </mat-card>
-      <mat-card fxFlex="10% ">
-          <app-card-graph label="Abiertos " ></app-card-graph>
-      </mat-card>
-      <mat-card fxFlex="25% ">
-          <app-card-graph label="Clicks " ></app-card-graph>
-      </mat-card>
-      <mat-card fxFlex="25% ">
-          <app-card-graph label="Rechazados " ></app-card-graph>
-      </mat-card>
-      <mat-card fxFlex="25% ">
-        <app-card-graph label="Rebotes " ></app-card-graph>
-    </mat-card>
-    <mat-card fxFlex="25% ">
-      <app-card-graph label="Queja " ></app-card-graph>
-  </mat-card>--> 
 </mat-card>
   <div style="display: block;">
     <canvas baseChart 
       [data]="pieChartData" 
-      [data]=[c.deliverys,c.rejects,c.bounces]
+      [data]=[c.sentEmails,c.countOpens]
       [labels]="pieChartLabels"
       [chartType]="pieChartType"
       [options]="pieChartOptions"
