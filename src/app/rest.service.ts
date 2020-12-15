@@ -7,8 +7,8 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class RestService {
-//endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
-endpoint = 'http://localhost:3000/';
+endpoint = 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/';
+//endpoint = 'http://localhost:3000/';
   
 
   constructor(private http: HttpClient) {
@@ -86,13 +86,13 @@ endpoint = 'http://localhost:3000/';
     .pipe(map(this.extractData));
   }
   getCompanys(): Observable<any> {
-    return this.http.get<any>('http://localhost:3000/api/companys/getCompanys')
+    return this.http.get<any>('http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/api/companys/getCompanys')
     .pipe(map(this.extractData));
   }
 
   crearCompany(nombre: string):Observable<any> {
   
-    return this.http.post<any>( 'http://localhost:3000/api/companys/',{nombre})
+    return this.http.post<any>( 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/api/companys/',{nombre})
     .pipe(map(this.extractData));
   
   }
@@ -105,35 +105,35 @@ endpoint = 'http://localhost:3000/';
   getLists(userId:string): Observable<any> {
 
     //    return this.http.get<any>(this.endpoint + 'api/listas/getListas')
-    return this.http.post<any>('http://localhost:3000/api/listas/getListas', {userId})
+    return this.http.post<any>('http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/api/listas/getListas', {userId})
     .pipe(map(this.extractData));
   }
   getEmailsSends(IDCampaign:string): Observable<any> {
 
     //    return this.http.get<any>(this.endpoint + 'api/listas/getListas')
-    return this.http.post<any>('http://localhost:3000/api/companys/getEmailsSends', {IDCampaign})
+    return this.http.post<any>('http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/api/companys/getEmailsSends', {IDCampaign})
     .pipe(map(this.extractData));
   }
   getEmailsDeliverys(IDCampaign:string): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/companys/getEmailsDeliverys', {IDCampaign})
+    return this.http.post<any>('http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/api/companys/getEmailsDeliverys', {IDCampaign})
     .pipe(map(this.extractData));
   }
   getEmailsRejects(IDCampaign:string): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/companys/getEmailsRejects', {IDCampaign})
+    return this.http.post<any>('http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/api/companys/getEmailsRejects', {IDCampaign})
     .pipe(map(this.extractData));
   }
 
   getEmailsOpens(IDCampaign:string): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/companys/getEmailsOpens', {IDCampaign})
+    return this.http.post<any>('http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/api/companys/getEmailsOpens', {IDCampaign})
     .pipe(map(this.extractData));
   }
   getListsPro(request): Observable<any> {
     //    return this.http.get<any>(this.endpoint + 'api/listas/getListas')
-    return this.http.post<any>('http://localhost:3000/api/listas/getListas', request)
+    return this.http.post<any>('http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/api/listas/getListas', request)
         .pipe(map(this.extractData));
       }
   getCampanias():Observable<any>{
-    return this.http.get<any>('' + 'http://localhost:3000/campaigns/getCampaigns')
+    return this.http.get<any>('' + 'http://ec2-18-234-63-154.compute-1.amazonaws.com:3000/campaigns/getCampaigns')
     .pipe(map(this.extractData));
   }
   searchLista(seleccionada: string):Observable<any> {

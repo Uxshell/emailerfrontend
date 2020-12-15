@@ -91,6 +91,9 @@ request={};
     this.cargandoC();
   
    }
+
+ 
+  
    async updateCampaigPRO(request) {
     let it = this;
   
