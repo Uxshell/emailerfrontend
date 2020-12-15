@@ -32,6 +32,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 
 export class CampaignComponent implements OnInit {
+  
   jsonData =  [
     {
       name: "Anil Singh",
