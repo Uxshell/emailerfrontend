@@ -5,6 +5,8 @@ import{RestService} from '../rest.service';
 import { ListaService } from '../_services/listaService';
 import{ClienteService} from '../_services/clienteService';
 import {Campaign} from '../_models/campaignModel';
+import { User } from 'src/app/_models/user';
+import {Cliente} from '../_models/clienteModel';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
@@ -32,20 +34,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 
 export class CampaignComponent implements OnInit {
-  public barChartOptions:any = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
-  public barChartLabels:string[] = ['Entregados', 'Rechazados', 'Rebotados', 'Abiertos', 'Clicks'];
-  public barChartType:string = 'bar';
-  public barChartLegend:boolean = false;
- 
-  public barChartData:any[] = [
 
-    {data: [65, 259, 80, 81], label: 'Series A'}
-  ];
-
-  
   public pieChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -79,7 +68,6 @@ request={};
   public campaignsFilter2: Campaign[] =[];
   public mycompany;
   public result;
-
   constructor(private listService: ListaService, private cs: ClienteService,public dialog: MatDialog, public res:RestService) { 
 //    this.cargandoC();
     monkeyPatchChartJsTooltip();
@@ -142,7 +130,7 @@ async  ultimateDeliverys(IDC) {
 
 };
 
-cargandoC(){
+async cargandoC(){
      
     this.ID_USER = localStorage.getItem('userId');
     this.MYCOMPANY = localStorage.getItem('company');
@@ -150,21 +138,86 @@ cargandoC(){
   this.mycompany = this.MYCOMPANY.replace(/['"]+/g, '');
     var userId= this.ID_USER.replace(/['"]+/g, '');
 
+ /*   this.request = {
+      company: this.mycompany,
+      userId: userId
+    }*/
 
     
     this.res.getCampanias().subscribe((data)=>{
       this.campanias = data.campaigns;
       console.log(this.campanias);
       
-      this.campaignsFilter= this.campanias.filter(l => l.companyId === this.mycompany);
-     console.log('campañas filtradas'+this.campaignsFilter);
-   console.log("NUm campañas filtradas"+this.campaignsFilter.length);
-     
-   
+      //this.campaignsFilter= this.campanias.filter(l => l.companyId === this.mycompany);
+     // console.log('campañas filtradas'+this.campaignsFilter);
+    //   console.log("NUm campañas filtradas"+this.campaignsFilter.length);
+      for(let i=0;i<this.campanias.length; i++){
+
+        this.miC= this.campanias[i];
+        this.IDCFilter= this.campanias[i]._id;
+        //var IDC= this.IDCFilter.replace(/['"]+/g, '');
+        var IDC= JSON.stringify( this.IDCFilter);
+        console.log('ID DE LA CAMPAIG'+this.IDCFilter);
+
+        this.ultimateOpens(this.IDCFilter);
+      /*  this.res.getEmailsSends(this.IDCFilter).subscribe((data)=>{       
+          //console.log('valor de data'+data.eS);
+          let eS= data.eS;
+        });*/
+
+      /*  
+        this.res.getEmailsDeliverys(this.IDCFilter).subscribe((data)=>{       
+          
+          this.eDNew= data.eD;
+      console.log('valor de data eDNew'+this.eDNew);
+
+        });*/
+
+       /* this.res.getEmailsRejects(this.IDCFilter).subscribe((data)=>{       
+     //     console.log('valor de data'+data.eR);
+          let eR= data.eR;
+        });*/
+        
+        /*this.res.getEmailsOpens(this.IDCFilter).subscribe((data)=>{       
+          //     console.log('valor de data'+data.eR);
+               this.eO= data.eO;
+             });*/
+
+        //let o= this.obteniendoOpens();
+         // let newo= JSON.stringify(o);
+         //this.enviados= this.miC.countDeliverys;
+        console.log('valor de eO antes de update'+this.result);
+/*
+        this.req = { 
+          IDC:this.IDCFilter,
+          countDeliverys:this.eDNew,
+          countRejects:2,
+          countOpens: this.eO,
+          countClicks:2,
+    
+    
+        };
+        this.actualizando(this.req);
+      */
+    
+        //this.pieChartData=[this.enviados,2,0];
+      }
+
+      //var milistas:Lista[]=[]= data.data;
+      //var listas = data.data;
+      //console.log("data list: " + JSON.stringify(this.listas));
           
     });
+    this.obtenerActualizado();
+ 
+  /*this.listService.cargarListas().subscribe((listas)=>{
 
-}
+   
+    //this.cargando= false;
+    this.listas= listas;
+    console.log(listas);
+  });*/
+};
 async obteniendoOpens(){
   await this.res.getEmailsOpens(this.IDCFilter).subscribe((data)=>{       
     console.log('IDCFilter en getEmailsOpens'+this.IDCFilter);

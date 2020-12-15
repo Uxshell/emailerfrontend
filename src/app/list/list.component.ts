@@ -140,7 +140,8 @@ crearLista(lista:Lista){
 }
 
   async abrirSweetAlert() {
-    let hoy= new Date();
+    let hoy= new Date().toLocaleDateString();  
+    console.log('fecha hoy'+hoy);
     
     const { value = '' } = await Swal.fire<string>({
       title: 'Nueva lista',

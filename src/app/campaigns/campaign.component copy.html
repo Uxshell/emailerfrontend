@@ -1,0 +1,56 @@
+<h1>Mis Campañas</h1>
+
+
+
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile *ngFor="let c of campaignsFilter2 " >
+       <mat-card fxFlex="100% ">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      
+      <mat-card-title style="font-size: medium;">{{c.name}}</mat-card-title>
+      <mat-card-subtitle>Creada: {{c.creationDate}}</mat-card-subtitle>
+      <mat-card-subtitle>Sends: {{c.sentEmails}}</mat-card-subtitle>
+     
+    </mat-card-header>
+  
+
+</mat-card>
+
+<!--
+  <div style="display: block;">
+    <canvas baseChart 
+      [data]="pieChartData" 
+      [data]=[c.sentEmails,c.countOpens]
+      [labels]="pieChartLabels"
+      [chartType]="pieChartType"
+      [options]="pieChartOptions"
+      [plugins]="pieChartPlugins"
+      [legend]="pieChartLegend">
+    </canvas>
+ 
+  </div>-->
+ 
+  
+</mat-grid-tile>
+<h1></h1>
+
+</mat-grid-list>
+
+
+
+
+<mat-accordion>
+<mat-expansion-panel (opened)="panelOpenState = true"
+(closed)="panelOpenState = false">
+<mat-expansion-panel-header>
+<mat-panel-title>
+Self aware panel
+</mat-panel-title>
+<mat-panel-description>
+Currently I am {{panelOpenState ? 'open' : 'closed'}}
+</mat-panel-description>
+</mat-expansion-panel-header>
+<p>I'm visible because I am open</p>
+</mat-expansion-panel>
+</mat-accordion>

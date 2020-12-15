@@ -8,7 +8,9 @@ export class Campaign {
             public countSends:Int32Array,
             public countRejects:Int32Array,
             public countOpens:Int32Array,
-            public companyId:string
+            public companyId:string,
+            public countBounces:Int32Array,
+            public countClicks:Int32Array
     ){}
     
    

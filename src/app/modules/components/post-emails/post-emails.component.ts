@@ -35,6 +35,7 @@ allFruits: string[] = []; //header
 public fruits: string[]=['Nombre'];
 public seleccionada: string;
 public ID_USER:string='';
+hoy= new Date().toLocaleDateString(); 
 
 campania: Campaign;
 //para programados
@@ -115,6 +116,7 @@ mirequest={};
     this.currentUser = this.currentUserSubject.asObservable();
     this.user = this.currentUserSubject.value;
       this.cargarLista();
+      this.process2();
     if (this.user === null) {
       this.router.navigate(['login']);
     } else if (this.user.rol == 'viewer') {
@@ -122,6 +124,8 @@ mirequest={};
     }
   
   }
+
+  
   async createCampaigPRO(request) {
     let it = this;
   
@@ -210,6 +214,7 @@ mirequest={};
 
   ngOnInit(): void {
     //let csvTableHeader = ["EMAIL", "NOMBRE", "APELLIDO", "GENERO", "NACIMIENTO", "PAIS", "CONSENTIMIENTO", "ORIGEN", "CALIFICACION", "CURP", "NSS", "SIEFORE", "EDAD", "ESTADOREPUBLICA", "SEGUNDONOMBRE", "SEGUNDOAPELLIDO", "CP", "PLATAFORMA", "TARGET", "HORARIOCONTACTO", "INTERES", "FECHAINGRESO", "ESTADOCIVIL", "DOMICILIOMUNICIPIO", "BIOMETRICO", "RECERTIFICACION", "ESTIDE", "PRIMERAFORE", "AHORROVOLUNTARIO", "TIPOCLIENTE", "AFOREMOVIL", "FECHADEREVERSION", "PAPERLESS", "IMSSISSSTEMIXTO", "SALDOVOL", "SALDORCV", "RENDIMIENTO", "CONTRATO", "RAZONSOCIAL", "EJECUTIVO", "CONTACTO", "FECHACERTIFICACION", "ANTIGUEDADAXXI", "SEGMENTO", "SUBSEGMENTO", "KLICCODIGO", "KLICVALIDO", "FECHACARTAPREFERENTE", "NOMBREEJECUTIVO", "TELEFONOEJECUTIVO", "EXTENSIONEJECUTIVO", "EMAILEJECUTIVO", "MIAFOREDIGITAL", "REFERENCIACIE", "FECHA_CREACION"];
+
     this.rest.getFilters().subscribe((data) => {
       //console.log("data filters: " + JSON.stringify(data));
       if (data.filters.filters) {
@@ -259,7 +264,11 @@ mirequest={};
     this.filtersHeaders.splice(index, 1)
     this.localFiltersHeaders.splice(this.header.value)
   }
-
+ process2(){
+   let select2='Posada 2020';
+  let idl= this.getIdLista(select2);
+  console.log(idl);
+ }
 
   processData() {
 
@@ -346,7 +355,8 @@ mirequest={};
     
       console.log('valor de lista seleccionada'+this.seleccionada);
       var select = this.seleccionada.replace(/['"]+/g, '');
-      this.getIdLista(select);
+      
+      
       if (data.clients.length > 0) {//existen clientes en la BD
         let obj = data.clients;
         total = data.total;
@@ -355,7 +365,7 @@ mirequest={};
           let obj = data.clients[i];
           //console.log("obj: " + JSON.stringify(obj));
             //obj.ID_LISTA==''
-          if(obj.BLACK==false &&obj.USER_ID==this.ID_USER){
+          if(obj.BLACK==false &&obj.USER_ID==this.ID_USER ){
             //falta lista
           
             let email = {};
@@ -371,12 +381,6 @@ mirequest={};
         }
           //break;
         }
-        //console.log("emails Arr: " + JSON.stringify(emails));
-        //this.sendEmail(emails);
-        
-        //let userDB = await this.getUserByEmail(this.request, headers);
-        //
-        //let cc = this.getIDCampaign();
 
         this.sendEmail(clients, emails);
         
@@ -394,13 +398,15 @@ mirequest={};
   }
   
 
-  getIdLista(request){
-    this.rest.searchLista(request).subscribe((data) => {
+  async getIdLista(request){
+    await this.rest.searchLista(request).subscribe((data) => {
       this.listaFind= data.lista;
+      let listTemp= JSON.stringify(this.listaFind);
+      
       console.log('idLista obtenido'+JSON.stringify(this.listaFind));
     });
 
-  }
+  };
   
   async getUserByEmail(request, headers) {
     let it = this;
@@ -448,6 +454,7 @@ mirequest={};
     let programado = this.schedule;
     let companyRe=localStorage.getItem('company');
     var companyParse = companyRe.replace(/['"]+/g, '');
+
     let req = {
       name: this.labelInput.value,
       creationDate: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
@@ -458,6 +465,7 @@ mirequest={};
       countRejects:0,
       countOpens:0,
       countClicks:0,
+      
 
 
     };

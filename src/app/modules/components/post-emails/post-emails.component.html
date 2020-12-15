@@ -3,7 +3,7 @@
 
 
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
-    <mat-card fxFlex="25%">
+    <mat-card fxFlex="50%">
         <h3>Campaña</h3>
         <mat-form-field>
             <input matInput placeholder="Campaña" required #campaignLabel="matInput" name="campaignLabel" type="text" [formControl]="labelInput">
@@ -32,6 +32,7 @@
 
             </mat-form-field>
         </div>
+
         
         <div>
             <button mat-raised-button (click)="addTag()" color="accent">
@@ -40,21 +41,37 @@
             </button>
         </div>
     </mat-card>
-    <mat-card fxFlex="25%">
+   
+    
+</div>
+<mat-divider></mat-divider>
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+
+    <mat-card fxFlex="50%">
         <div>
             <h3>Presubject</h3>
             <mat-form-field>
                 <input matInput placeholder="Presubject" required #subjectLabel="matInput" name="PresubjectLabel" type="text" [formControl]="subjectInput">
             </mat-form-field>
         </div>
+    </mat-card>
+    
+    <mat-card fxFlex="50%">
+        <div>
+            <h3>Remitente</h3>
+            <mat-form-field>
+                <input matInput placeholder="Correo remitente" required #subjectLabel="matInput" name="PresubjectLabel" type="text" [formControl]="subjectInput">
+            </mat-form-field>
+        </div>
         
     </mat-card>
 </div>
-<mat-divider></mat-divider>
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
-    <mat-card fxFlex="100%">
+
+
+<mat-card fxFlex="100%">
         <div class="profile-card">
-            <h3>Programar envío</h3>
+            <h3>Programar envío (opcional)</h3>
             <label for="appt">Hora de envío:</label>    
             <input type="time" id="tim" name="appt" min="01:00" max="24:00" #miTime required>
 

@@ -3,39 +3,29 @@
 
 
 <mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile *ngFor="let c of campaignsFilter2 " >
-       <mat-card fxFlex="100% ">
-    <mat-card-header>
-      <div mat-card-avatar class="example-header-image"></div>
-      
+  <!--<mat-grid-tile *ngFor="let c of campaignsFilter " >-->
+       <mat-card fxFlex="100% "*ngFor="let c of campaignsFilter " >
+    <mat-card-header>      
       <mat-card-title style="font-size: medium;">{{c.name}}</mat-card-title>
       <mat-card-subtitle>Creada: {{c.creationDate}}</mat-card-subtitle>
-      <mat-card-subtitle>Sends: {{c.sentEmails}}</mat-card-subtitle>
+      <mat-card-subtitle>Sends: {{c.countSends}}</mat-card-subtitle>
      
     </mat-card-header>
   
+<mat-card-content>
+      <div style="display: block">
+        <canvas baseChart
+                [data]="[ c.countDeliverys, c.countRejects, c.countBounces,c.countOpens, c.countClicks]"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [chartType]="barChartType"></canvas>
+      
+      
+    </div>
+  </mat-card-content>
 
-</mat-card>
-  <div style="display: block;">
-    <canvas baseChart 
-      [data]="pieChartData" 
-      [data]=[c.sentEmails,c.countOpens]
-      [labels]="pieChartLabels"
-      [chartType]="pieChartType"
-      [options]="pieChartOptions"
-      [plugins]="pieChartPlugins"
-      [legend]="pieChartLegend">
-    </canvas>
- <!-- </div>-->
-  </div>
- 
-  
-</mat-grid-tile>
-<h1></h1>
+ </mat-card>
+
 
 </mat-grid-list>
-
-
-
-
-
