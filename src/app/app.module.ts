@@ -32,6 +32,7 @@ import { CardGraphComponent } from './modules/components/widgets/card-graph/card
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { ManagerListComponent } from './modules/components/manager-list/manager-list.component';
 import { DataService } from './modules/components/stadistics/DataService';
+import {AppService} from '../app/campaigns/app.service';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { DateRangeComponent } from './modules/components/post-emails/date-range/date-range.component';
@@ -135,7 +136,7 @@ const appRoutes: Routes = [
   ],
   exports:[MatDatepickerModule, 
     MatNativeDateModule ],
-  providers: [DataService, DatePipe],
+  providers: [DataService, DatePipe, AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

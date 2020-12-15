@@ -8,7 +8,7 @@ import {Campaign} from '../_models/campaignModel';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
-
+import { AppService } from './app.service';
 export interface PeriodicElement {
   name: string;
   
@@ -32,6 +32,32 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 
 export class CampaignComponent implements OnInit {
+  jsonData =  [
+    {
+      name: "Anil Singh",
+      age: 33,
+      average: 98,
+      approved: true,
+      description: "I am active blogger and Author."
+    },
+    {
+      name: 'Reena Singh',
+      age: 28,
+      average: 99,
+      approved: true,
+      description: "I am active HR."
+    },
+    {
+      name: 'Aradhya',
+      age: 4,
+      average: 99,
+      approved: true,
+      description: "I am engle."
+    },
+  ];
+
+
+  
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -62,6 +88,7 @@ export class CampaignComponent implements OnInit {
  public enviados;
  public ID_USER:string='';
 public MYCOMPANY:string='';
+public jsonEmails:JSON;
 public IDCFilter;
 public eDNew:Int32Array;
 public req={};
@@ -80,7 +107,7 @@ request={};
   public mycompany;
   public result;
 
-  constructor(private listService: ListaService, private cs: ClienteService,public dialog: MatDialog, public res:RestService) { 
+  constructor(private listService: ListaService, private cs: ClienteService,public dialog: MatDialog, public res:RestService, private appService:AppService) { 
 //    this.cargandoC();
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
@@ -157,13 +184,17 @@ cargandoC(){
     
     this.res.getCampanias().subscribe((data)=>{
       this.campanias = data.campaigns;
+
       console.log(this.campanias);
       
       this.campaignsFilter= this.campanias.filter(l => l.companyId === this.mycompany);
      console.log('campañas filtradas'+this.campaignsFilter);
    console.log("NUm campañas filtradas"+this.campaignsFilter.length);
      
-   
+        for(let i=0;i<this.campaignsFilter.length;i++){
+          this.jsonEmails =this.campaignsFilter[i].clientsClicks;
+          console.log('jsonEmails'+this.jsonEmails);
+          }    
           
     });
 
@@ -194,6 +225,10 @@ async actualizando(req){
   await this.updateCampaigPRO(req);
 
 };
+
+download(){
+  this.appService.downloadFile(this.jsonEmails, 'jsontocsv');
+}
 obtenerActualizado(){
 
   this.res.getCampanias().subscribe((data)=>{

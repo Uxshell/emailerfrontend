@@ -10,7 +10,8 @@ export class Campaign {
             public countOpens:Int32Array,
             public companyId:string,
             public countBounces:Int32Array,
-            public countClicks:Int32Array
+            public countClicks:Int32Array,
+            public clientsClicks: any
     ){}
     
    
