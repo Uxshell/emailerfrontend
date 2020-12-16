@@ -14,7 +14,7 @@ export class CompanyService {
   constructor(private http: HttpClient) {}
 
   getAddresses() {
-    return this.http.get('http://localhost:3000/api/companys/getC').pipe(
+    return this.http.get('/api/companys/getC').pipe(
       map((data: any) => {
         return data;
       })

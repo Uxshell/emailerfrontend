@@ -63,6 +63,7 @@ disableSelect = new FormControl(false);
   hasName: boolean = false;
   request;
   subject;
+  remitente;
   filterHeader: string;
   public timeEnvio;
   public doh:number;
@@ -82,6 +83,7 @@ disableSelect = new FormControl(false);
   header = new FormControl();
   labelInput = new FormControl();
   subjectInput = new FormControl();
+  remitenteInput= new FormControl();
   public schedule=false;
   nameValue = "";
   maptypes = new Map();
@@ -449,12 +451,13 @@ mirequest={};
     //let cron = require('node-cron');
     let html = this.fileContent;
     let subject = this.subjectInput.value;
+    let remitente = this.remitenteInput.value;
     let tagsforHtml = this.fruits;
     let fechaparaEnvio = this.fechaEnvio;
     let programado = this.schedule;
     let companyRe=localStorage.getItem('company');
     var companyParse = companyRe.replace(/['"]+/g, '');
-
+ 
     let req = {
       name: this.labelInput.value,
       creationDate: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
@@ -482,6 +485,7 @@ mirequest={};
   
     let request = {
       "subject": subject,
+      "remitente": remitente,
       "clients": clients,
       "html": html,
       "tags": tagsforHtml,
