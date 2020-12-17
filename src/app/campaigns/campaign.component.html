@@ -13,7 +13,8 @@
       <mat-chip-list> 
         <div><mat-chip color="primary" selected>{{c.countSends}} Entregados</mat-chip> </div>
         <div><mat-chip color="accent" selected>{{c.countSends}} Abiertos</mat-chip> </div>
-        <div><mat-chip color="warn" selected>{{c.countSends}} Rebotados </mat-chip> </div>
+        <div><mat-chip color="warn" selected>{{c.countRejects}} Rebotados </mat-chip> </div>
+
       </mat-chip-list>
       
         <button mat-stroked-button color="primary" (click)="download()"> Descargar reporte</button>  

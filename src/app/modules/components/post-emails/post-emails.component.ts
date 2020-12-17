@@ -346,8 +346,9 @@ mirequest={};
 
     //console.log("request -->: " + JSON.stringify(this.request));
     //obtenemos todos los clientes de la BD
-    this.seleccionada 
-    //this.rest.searchLista(this.seleccionada);
+    //this.seleccionada 
+    this.rest.searchLista(this.seleccionada);
+    
     this.rest.getClients(this.request).subscribe((data) => {
       let emails = [];
       let total = 0;
