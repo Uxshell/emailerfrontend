@@ -18,7 +18,7 @@
             <mat-select [(value)]="seleccionada">
 
 
-              <mat-option *ngFor="let food of listas" [value]="food.nombre">
+              <mat-option *ngFor="let food of listas" [value]="food.nombre" (click)="getIDL()" >
                 {{food.nombre}}
               </mat-option>
             </mat-select>

@@ -34,6 +34,11 @@ export class ListaService {
         const url = `${ this.endpoint }/api/listas/borrarLista/${_id}`;
         return this.http.delete( url );
       }
+      buscarLista( nombre: string ) {
+
+        const url = `${ this.endpoint }/api/listas/buscarL`;
+        return this.http.post( url, { nombre } );
+      }
       
      
 

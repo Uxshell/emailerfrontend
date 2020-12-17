@@ -287,8 +287,7 @@ crearLista(lista:Lista){
       query["EMAIL"] = client.EMAIL;
       client.BLACK= false;
       client.ID_LISTA=this.IDLISTA_generado;
-      client.USER_ID= this.ID_USER;
-      
+      client.USER_ID= this.ID_USER.replace(/['"]+/g, '');
       //console.log('IDlistagenerado desde upload'+this.IDLISTA_generado);
       this.request = {
         query: query

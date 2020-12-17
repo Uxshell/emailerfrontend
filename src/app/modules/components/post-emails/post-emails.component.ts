@@ -35,6 +35,7 @@ allFruits: string[] = []; //header
 public fruits: string[]=['Nombre'];
 public seleccionada: string;
 public ID_USER:string='';
+public ID_LISTA:string='';
 hoy= new Date().toLocaleDateString(); 
 
 campania: Campaign;
@@ -68,6 +69,7 @@ disableSelect = new FormControl(false);
   public timeEnvio;
   public doh:number;
   public dom:number;
+  public   IDListaFind:string='';
   isCompleted: boolean = false;
   isFinish: boolean = false;
   isError: boolean = false;
@@ -118,7 +120,9 @@ mirequest={};
     this.currentUser = this.currentUserSubject.asObservable();
     this.user = this.currentUserSubject.value;
       this.cargarLista();
-      this.process2();
+     
+
+      //this.process2();
     if (this.user === null) {
       this.router.navigate(['login']);
     } else if (this.user.rol == 'viewer') {
@@ -173,6 +177,7 @@ mirequest={};
     this.listas= listas;
     console.log(listas);
   });*/
+
 }
 
 
@@ -267,9 +272,13 @@ mirequest={};
     this.localFiltersHeaders.splice(this.header.value)
   }
  process2(){
-   let select2='Posada 2020';
-  let idl= this.getIdLista(select2);
-  console.log(idl);
+  this.rest.searchLista( this.seleccionada ).subscribe( (data) => {
+    
+    //console.log('_id de lista antes de'+resp.lista._id);
+    this.IDListaFind=data.lista.ID;
+    
+    console.log('Process2'+this.IDListaFind);
+  })
  }
 
   processData() {
@@ -346,9 +355,8 @@ mirequest={};
 
     //console.log("request -->: " + JSON.stringify(this.request));
     //obtenemos todos los clientes de la BD
-    //this.seleccionada 
-    this.rest.searchLista(this.seleccionada);
     
+   
     this.rest.getClients(this.request).subscribe((data) => {
       let emails = [];
       let total = 0;
@@ -356,19 +364,21 @@ mirequest={};
       let client = {};
         
     
-      console.log('valor de lista seleccionada'+this.seleccionada);
-      var select = this.seleccionada.replace(/['"]+/g, '');
+      
+      
       
       
       if (data.clients.length > 0) {//existen clientes en la BD
         let obj = data.clients;
         total = data.total;
+        console.log('ID_USER:::'+this.ID_USER.replace(/['"]+/g, '')+'IDListaFind'+this.IDListaFind);
+        let IDUserParse= this.ID_USER.replace(/['"]+/g, '');
         for (let i = 0; i < data.clients.length; i++) {
           let client = {};
           let obj = data.clients[i];
           //console.log("obj: " + JSON.stringify(obj));
             //obj.ID_LISTA==''
-          if(obj.BLACK==false &&obj.USER_ID==this.ID_USER ){
+          if(obj.BLACK==false &&obj.USER_ID==IDUserParse && obj.ID_LISTA==this.IDListaFind){
             //falta lista
           
             let email = {};
@@ -407,6 +417,7 @@ mirequest={};
       let listTemp= JSON.stringify(this.listaFind);
       
       console.log('idLista obtenido'+JSON.stringify(this.listaFind));
+      console.log('listTemp'+listTemp);
     });
 
   };
@@ -433,7 +444,7 @@ mirequest={};
 
     };
 
-
+      
     this.rest.createCampaign(request).subscribe((data) => {
 
       console.log("campaña: " + data.campaignId);
@@ -596,7 +607,14 @@ mirequest={};
     this.subjectInput.setValue(this.subjectLabel.value);
     //Add tags in future
   }
+  getIDL(){
 
+
+this.rest.searchLista(this.seleccionada).subscribe((data)=>{
+  console.log('search List'+data.idlista);
+  this.IDListaFind=data.idlista;
+});
+  }
   addFilter() {
     //console.log("selected: " + this.header.value);
     if (this.header.value != null && !this.localFiltersHeaders.includes(this.header.value)) {
