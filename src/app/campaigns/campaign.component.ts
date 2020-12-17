@@ -90,6 +90,11 @@ export class CampaignComponent implements OnInit {
  public ID_USER:string='';
 public MYCOMPANY:string='';
 public jsonEmails:JSON;
+public jsonEmailsDeliverys:JSON;
+public jsonEmailsRejects:JSON;
+public jsonEmailsBounces:JSON;
+public jsonEmailsOpens:JSON;
+public jsonEmailsClicks:JSON;
 public IDCFilter;
 public eDNew:Int32Array;
 public req={};
@@ -193,8 +198,14 @@ cargandoC(){
    console.log("NUm campañas filtradas"+this.campaignsFilter.length);
      
         for(let i=0;i<this.campaignsFilter.length;i++){
-          this.jsonEmails =this.campaignsFilter[i].clientsClicks;
+          this.jsonEmails =this.campaignsFilter[i].clientsOpens;
           console.log('jsonEmails'+this.jsonEmails);
+          this.jsonEmailsDeliverys = this.campaignsFilter[i].clientsDeliverys;
+       //   this.jsonEmailsOpens = this.campaignsFilter[i].clientsOpens;
+          this.jsonEmailsRejects = this.campaignsFilter[i].clientsRejects;
+          this.jsonEmailsBounces = this.campaignsFilter[i].clientsBounces;
+          this.jsonEmailsClicks  = this.campaignsFilter[i].clientsClicks;
+
           }    
           
     });
@@ -228,7 +239,25 @@ async actualizando(req){
 };
 
 download(){
-  this.appService.downloadFile(this.jsonEmails, 'jsontocsv');
+  console.log(this.jsonEmails);
+  this.appService.downloadFile(this.jsonEmails, 'reporteEmailer2020');
+}
+downloadDeliverys(){
+ 
+  this.appService.downloadFile(this.jsonEmailsDeliverys, 'reportDeliverysEmailer');
+}
+downloadOpens(){
+  
+  this.appService.downloadFile(this.jsonEmailsOpens, 'reportOpensEmailer');
+}
+downloadRejects(){
+  this.appService.downloadFile(this.jsonEmailsRejects, 'reportRejectsEmailer');
+}
+downloadBounces(){
+  this.appService.downloadFile(this.jsonEmailsBounces, 'reportBouncesEmailer');
+}
+downloadClicks(){
+  this.appService.downloadFile(this.jsonEmailsClicks, 'reportClicksEmailer');
 }
 obtenerActualizado(){
 

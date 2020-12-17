@@ -12,12 +12,19 @@
       <div> <mat-card-subtitle style="font-size: small;"> {{c.creationDate}}</mat-card-subtitle></div> 
       <mat-chip-list> 
         <div><mat-chip color="primary" selected>{{c.countSends}} Entregados</mat-chip> </div>
-        <div><mat-chip color="accent" selected>{{c.countSends}} Abiertos</mat-chip> </div>
-        <div><mat-chip color="warn" selected>{{c.countRejects}} Rebotados </mat-chip> </div>
+        <div><mat-chip color="accent" selected>{{c.countOpens}} Abiertos</mat-chip> </div>
+        <div><mat-chip color="warn" selected>{{c.countRejects}} Rechazados </mat-chip> </div>
 
       </mat-chip-list>
       
-        <button mat-stroked-button color="primary" (click)="download()"> Descargar reporte</button>  
+        <button mat-stroked-button color="primary" (click)="downloadDeliverys()"> Reporte CSV Entregados</button>  
+
+        <button mat-stroked-button color="primary" (click)="downloadOpens()"> Reporte CSV Abiertos</button>  
+
+        <button mat-stroked-button color="primary" (click)="downloadRejects()"> Reporte CSV Rechazados</button>  
+
+        <button mat-stroked-button color="primary" (click)="downloadBounces()"> Reporte CSV Rebotes</button>  
+        <button mat-stroked-button color="primary" (click)="downloadClicks()"> Reporte CSV Cicks</button>  
       </div>
       
     </mat-card-header>   

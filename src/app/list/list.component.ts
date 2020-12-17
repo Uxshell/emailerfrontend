@@ -281,13 +281,15 @@ crearLista(lista:Lista){
 
    
    
-
+    let userNEW= this.ID_USER.replace(/['"]+/g, '');
+    console.log('userNEW'+userNEW);
+    console.log('USER_ID'+this.ID_USER);
     for (let i = 0; i < this.csvArr.length; i++) {
       let client = this.csvArr[i]
       query["EMAIL"] = client.EMAIL;
       client.BLACK= false;
       client.ID_LISTA=this.IDLISTA_generado;
-      client.USER_ID= this.ID_USER.replace(/['"]+/g, '');
+      client.USER_ID= userNEW;
       //console.log('IDlistagenerado desde upload'+this.IDLISTA_generado);
       this.request = {
         query: query
@@ -300,7 +302,7 @@ crearLista(lista:Lista){
             let client = this.csvArr[i];
             client.BLACK= false;
             client.ID_LISTA=this.IDLISTA_generado;
-            client.USER_ID= this.ID_USER;
+            client.USER_ID= userNEW;
        
             
             //client.FECHA_CREACION = this.transformDate(this.creationDate);

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class AppService {
 
     downloadFile(data, filename='data') {
-        let csvData = this.ConvertToCSV(data, ['name','age', 'average', 'approved', 'description']);
+        let csvData = this.ConvertToCSV(data, ['email']);
         console.log(csvData)
         let blob = new Blob(['\ufeff' + csvData], { type: 'text/csv;charset=utf-8;' });
         let dwldLink = document.createElement("a");
@@ -23,6 +23,7 @@ export class AppService {
 
     ConvertToCSV(objArray, headerList) {
          let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+         console.log('arrary'+array);
          let str = '';
          let row = 'S.No,';
 
@@ -36,7 +37,7 @@ export class AppService {
              for (let index in headerList) {
                 let head = headerList[index];
 
-                 line += ',' + array[i][head];
+                 line += ',' + array[i];
              }
              str += line + '\r\n';
          }
